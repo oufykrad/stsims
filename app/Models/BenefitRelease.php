@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class BenefitRelease extends Model
 {
     protected $fillable = [
-        'dv_no', 'number', 'added_by', 'attachment', 'total'
+        'dv_no', 'batch', 'number', 'added_by', 'attachment', 'total'
     ];
 
     public function user()

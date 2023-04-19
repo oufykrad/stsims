@@ -39,6 +39,7 @@ class IndexController extends Controller
     public function store(ReleaseRequest $request){
         $data = \DB::transaction(function () use ($request){
             $attachment = [];
+            $count = BenefitRelease::count();
             $data = BenefitRelease::create(
                 array_merge($request->all(),[
                     'attachment' => json_encode($attachment),
