@@ -41,7 +41,7 @@
                                 <h5 class="fs-14 mb-0 text-dark">{{list.name}}</h5>
                                 <p class="fs-12 text-muted mb-0">{{list.program}}</p>
                             </td>
-                            <td width="40%" class="text-center">{{list.account}}</td>
+                            <td width="40%" class="text-center">{{list.account_no}}</td>
                             <td width="15%" class="text-center"> ₱{{ formatMoney(list.total) }}</td>
                             <td width="5%" class="text-end">
                                 <b-button @click="view(list)" variant="soft-info" v-b-tooltip.hover title="View" size="sm" class="edit-list me-1"><i class="ri-eye-fill align-bottom"></i> </b-button>

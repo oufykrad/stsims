@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('benefit_releases', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->string('batch',10);
             $table->string('number',2);
             $table->json('attachment');
             $table->string('dv_no')->nullable();

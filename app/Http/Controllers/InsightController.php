@@ -12,6 +12,7 @@ use App\Models\ProfileAddress;
 use App\Models\SchoolCampus;
 use App\Models\ScholarEducation;
 use App\Models\LocationProvince;
+use App\Models\LocationMunicipality;
 use Illuminate\Http\Request;
 
 class InsightController extends Controller
@@ -201,6 +202,7 @@ class InsightController extends Controller
 
             $array[] = [
                 'province' => $province->name,
+                'code' => $province->code,
                 'count' => $count,
                 'total' => array_sum($count)
             ];
@@ -223,6 +225,14 @@ class InsightController extends Controller
         ];
 
         return $all;
+    }
+
+    public function edit($code){
+        $data = ProfileAddress::with(['municipality' => function($query){
+            $query->groupBy('district');
+        }])->count();
+
+        return $data;
     }
 }
 

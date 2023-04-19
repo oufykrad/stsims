@@ -20,7 +20,7 @@
                     </thead>
                     <tbody class="fs-11">
                         <tr v-for="(list,index) in locations.provinces" v-bind:key="index">
-                            <td @click="view(list)" style="cursor: pointer;" width="20%" class="fw-medium">{{list.province}}</td>
+                            <td @click="view(list.code)" style="cursor: pointer;" width="20%" class="fw-medium">{{list.province}}</td>
                             <td :width="70/list.count.length+'%'" class="text-center" v-for="(count,index) in list.count" v-bind:key="index">{{count}} </td>
                             <td width="10%" class="text-center fw-bold">{{list.total}}</td>
                         </tr>

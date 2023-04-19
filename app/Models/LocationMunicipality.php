@@ -24,6 +24,6 @@ class LocationMunicipality extends Model
 
     public function scholars()
     {
-        return $this->hasMany('App\Models\ScholarAddress', 'municipality_code');
+        return $this->hasMany('App\Models\ProfileAddress', 'municipality_code');
     } 
 }

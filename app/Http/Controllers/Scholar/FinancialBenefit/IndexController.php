@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Scholar\FinancialBenefit;
 
+use App\Models\User;
 use App\Models\Scholar;
 use App\Models\BenefitList;
 use App\Models\BenefitRelease;
@@ -101,5 +102,18 @@ class IndexController extends Controller
         ->get();
 
         return ListResource::collection($data);
+    }
+
+    public function edit($id){
+        $data = BenefitRelease::where('id',$id)->first();
+        $user = User::with('profile')->where('role','Scholarship Coordinator')->where('is_active',1)->first();
+
+        $array = [
+            'benefits' => new ReleaseResource($data),
+            'user' => $user
+        ];
+
+        $pdf = \PDF::loadView('prints.financialbenefits',$array)->setPaper('a4', 'portrait');
+        return $pdf->download('FinancialBenefit.pdf');
     }
 }

@@ -19,13 +19,24 @@
         data() {
             return {
                 currentUrl: window.location.origin,
-                showModal: false
+                showModal: false,
+                code: ''
             }
         },
 
+
         methods: {
             set(list) {
+                this.code = list;
                 this.showModal = true;
+                this.fetchStatus();
+            },
+            fetchStatus() {
+                axios.get(this.currentUrl + '/insights'+'/'+this.code+'/edit')
+                    .then(response => {
+                        
+                    })
+                    .catch(err => console.log(err));
             },
         }
     }

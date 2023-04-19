@@ -21,6 +21,7 @@ class EvaluationResource extends JsonResource
         return [
             'id' => $this->id,
             'code' => $id,
+            'account_no' => ($this->account_no == null) ? 'n/a' : $this->account_no,
             'spas_id' => ($this->spas_id == null) ? 'n/a' : $this->spas_id,
             'awarded_year' => $this->awarded_year,
             'status' => $this->status,

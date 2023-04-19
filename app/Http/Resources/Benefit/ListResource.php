@@ -16,6 +16,7 @@ class ListResource extends JsonResource
     {
         return [
             'account' => rand ( 10000 , 99999 ) .'-'.rand ( 10000 , 99999 ).'-'.rand ( 10000 , 99999 ),
+            'account_no' => ($this->account_no == null) ? 'n/a' : $this->account_no,
             'name' => $this->profile->lastname.', '. $this->profile->firstname.' '. $this->profile->middlename,
             'program' => $this->program->name,
             'avatar' => ($this->profile->user) ? $this->profile->user->avatar : 'avatar.jpg',

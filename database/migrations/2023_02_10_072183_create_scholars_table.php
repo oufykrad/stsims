@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('spas_id')->unique()->nullable();
             $table->string('lrn')->unique()->nullable();
+            $table->string('account_no')->unique()->nullable();
             $table->boolean('is_completed')->default(1);
             $table->boolean('is_enrolled')->default(0);
             $table->boolean('is_undergrad');

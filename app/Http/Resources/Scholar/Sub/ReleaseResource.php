@@ -6,6 +6,7 @@ use App\Models\BenefitList;
 use App\Models\Scholar;
 use App\Http\Resources\NameResource;
 use App\Http\Resources\Benefit\ListResource;
+use App\Http\Resources\Benefit\LbpResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ReleaseResource extends JsonResource
@@ -20,6 +21,8 @@ class ReleaseResource extends JsonResource
         ->whereIn('id',$scholars)
         ->get();
 
+        $note = '9999999999DEPT OF SCIENCE AND TECHN'.str_pad((str_replace('.', '', $this->total)), 15, '0', STR_PAD_LEFT).str_pad(('4533648200000'), 19, '0', STR_PAD_LEFT).str_pad((count($lists)), 5, '0', STR_PAD_LEFT).' '.str_pad((31), 5, '0', STR_PAD_LEFT); 
+
         return [
             'id' => $this->id,
             'number' => $this->number,
@@ -29,6 +32,8 @@ class ReleaseResource extends JsonResource
             'total' => $this->total,
             'benefits' => $scholars,
             'lists' => ListResource::collection($lists),
+            'lbp' => LbpResource::collection($lists),
+            'note' => $note,
             'created_at' => $this->created_at
         ];
     }

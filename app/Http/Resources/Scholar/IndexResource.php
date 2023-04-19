@@ -19,6 +19,7 @@ class IndexResource extends JsonResource
         return [
             'id' => $this->scholar->id,
             'code' => $id,
+            'account_no' => ($this->scholar->account_no == null) ? 'n/a' : $this->scholar->account_no,
             'lrn' => ($this->scholar->lrn == null) ? 'n/a' : $this->scholar->lrn,
             'spas_id' => ($this->scholar->spas_id == null) ? 'SPAS-'.str_pad(mt_rand(1,99999999),6,'0',STR_PAD_LEFT) : $this->scholar->spas_id,
             'awarded_year' => $this->scholar->awarded_year,

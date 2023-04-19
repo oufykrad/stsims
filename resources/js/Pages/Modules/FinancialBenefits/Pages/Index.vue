@@ -35,6 +35,8 @@
                             <td class="text-center">{{list.added_by.firstname}} {{list.added_by.lastname}}</td>
                             <td class="text-center">{{list.created_at}}</td>
                             <td class="text-end">
+                                <b-button @click="print(list.id)" variant="soft-success" v-b-tooltip.hover title="Print" size="sm" class="edit-list me-1"><i class="ri-printer-fill align-bottom"></i> </b-button>
+                                <b-button @click="viewLbp(list)" variant="soft-warning" v-b-tooltip.hover title="View LBP" size="sm" class="edit-list me-1"><i class="ri-bank-line align-bottom"></i> </b-button>
                                 <b-button @click="view(list)" variant="soft-info" v-b-tooltip.hover title="View" size="sm" class="edit-list me-1"><i class="ri-eye-fill align-bottom"></i> </b-button>
                             </td>
                         </tr>
@@ -106,12 +108,14 @@
     </div>
     
     <Lists ref="lists"/>
+    <LBP ref="lbp"/>
 </template>
 <script>
+import LBP from '../Modals/LBP.vue';
 import Lists from '../Modals/Lists.vue';
 import Pagination from "@/Shared/Components/Pagination.vue";
 export default {
-    components: { Pagination, Lists },
+    components: { Pagination, Lists, LBP },
     data(){
         return {
             currentUrl: window.location.origin,
@@ -157,6 +161,18 @@ export default {
         view(data){
             this.show = true;
             this.selected = data;
+        },
+        viewLbp(data){
+            this.$refs.lbp.set(data);
+            axios.get(this.currentUrl+'/financial-benefits/edit/edit')
+            .then(response => {
+                if(response){
+                }
+            })
+            .catch(err => console.log(err));
+        },
+        print(id){
+            window.open(this.currentUrl + '/financial-benefits/'+id+'/edit');
         }
     }
 }
