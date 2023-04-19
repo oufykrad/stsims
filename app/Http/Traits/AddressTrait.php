@@ -111,7 +111,6 @@ trait AddressTrait {
         $is_within = 1;
 
         if($province){
-            $province = ($province == 'Zamboanga City') ? 'City of Zamboanga' : $province;
             $data = LocationProvince::with('region')
             ->where(function($query) use ($province) {  
                 $query->where('name','LIKE', '%'.$province.'%');
