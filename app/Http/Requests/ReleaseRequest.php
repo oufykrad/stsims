@@ -13,11 +13,18 @@ class ReleaseRequest extends FormRequest
 
     public function rules()
     {
-        return [
-            'lists' => 'required|min:1',
-            'dv' => 'required',
-            'dv_no' => 'required_if:dv,true',
-            'total' => 'required'
-        ];
+        if($this->type == 'Completed'){
+            return [
+                'attachment' => 'required',
+                'attachment.*' => 'mimes:pdf|max:2000'
+            ];
+        }else{
+            return [
+                'lists' => 'required|min:1',
+                'dv' => 'required',
+                'dv_no' => 'required_if:dv,true',
+                'total' => 'required'
+            ];
+        }
     }
 }

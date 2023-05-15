@@ -25,7 +25,6 @@
                     </div>
                 </form>
 
-              
                 <b-row>
                     <b-col xxl="12">
                         <hr class="mt-0"/>
@@ -81,8 +80,6 @@
                         </b-card>
                     </b-col>
                 </b-row>
-
-                
             </div>
 
             
@@ -118,7 +115,11 @@ export default {
             deep: true,
             handler(val = null) {
                 if(val != null && val !== ''){
-                    this.message(val.data);
+                    if(this.show == 'index'){
+                        this.fetchLatest();
+                        this.$refs.index.update(val.data);
+                    }
+                    // this.message(val.data);
                     // console.log(val)
                 }
             },

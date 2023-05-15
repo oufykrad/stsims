@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Scholar\Evaluation;
 
+use App\Models\EnrolledList;
 use App\Models\ScholarEducation;
 use App\Models\ScholarEnrollment;
 use App\Models\ScholarEnrollmentList;
@@ -34,9 +35,15 @@ class IndexController extends Controller
     public function save($request){
         $enrollment = ScholarEnrollment::where('id',$request->enrollment_id)->first();
         $attach = json_decode($enrollment->attachment,true);
-        array_push($attach['grades'],$this->grade($request,$enrollment));
+        $count = count($attach['grades']);
+        
+        $attach['grades'] = array_merge($attach['grades'],$this->grade($request,$enrollment,$count));
+        // array_push($attach['grades'],$this->grade($request,$enrollment,$count));
         $enrollment->attachment = $attach;
         $enrollment->save();
+        
+        $scholar_id = $enrollment->scholar_id;
+        $semester_id = $enrollment->semester_id;
 
         $count = 0;
         $subjects = json_decode($request->lists,true);
@@ -53,7 +60,12 @@ class IndexController extends Controller
         }
 
         $data = ScholarEnrollment::where('id',$enrollment_id)->first();
-        ($count == 0) ? $data->is_clear = 1 : $data->is_clear = 0;
+        if($count == 0){
+            $data->is_clear = 1;
+            $p = EnrolledList::where('scholar_id',$scholar_id)->where('school_semester_id',$semester_id)->update(['grades_completed' => 1]);
+        }else{ 
+            $data->is_clear = 0;
+        }
         $data->save();
 
         return $data;
@@ -63,7 +75,12 @@ class IndexController extends Controller
         $data = ScholarEnrollment::where('id',$request->id)->first();
         $data->update($request->except('editable'));
         if($data->is_clear){
-            $p = ScholarEducation::with('subcourse')->where('scholar_id',$data->scholar_id)->first();
+            $scholar_id =  $data->scholar_id;
+            $semester_id =  $data->semester_id;
+
+            $p = EnrolledList::where('scholar_id',$scholar_id)->where('school_semester_id',$semester_id)->update(['grades_completed' => 1]);
+
+            $p = ScholarEducation::with('subcourse')->where('scholar_id',$scholar_id)->first();
             $years = $p->subcourse->years; 
             $semesters = 3;
 
@@ -108,6 +125,6 @@ class IndexController extends Controller
             $p->information = $prospectus;
             $p->save();   
         }
-        return $data;
+        return new EnrollmentResource($data);
     }
 }

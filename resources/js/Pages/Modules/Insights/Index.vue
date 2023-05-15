@@ -2,7 +2,7 @@
     <Head title="Insights" />
     <PageHeader :title="title" :items="items" />
 
-    <b-row>
+    <b-row style="height: calc(100vh - 225px); overflow: auto;">
         <b-col xxl="4">
 
         </b-col>

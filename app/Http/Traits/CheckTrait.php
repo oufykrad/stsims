@@ -62,6 +62,7 @@ trait CheckTrait {
 
     public function checkSchool($type){
         ($type == 'MSU - Sindangan Ext.') ? $type = 'MSU-Sindangan' : $type = $type;
+        ($type == 'JHCSC') ? $type = 'JHCSC-Mati' : $type = $type;
         $data = SchoolCampus::where('shortcut',$type)->pluck('id')->first();
         ($data != null) ? $data = $data : $data = NULL;
         return $data;

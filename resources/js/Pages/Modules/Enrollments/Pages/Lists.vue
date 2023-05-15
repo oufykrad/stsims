@@ -75,11 +75,13 @@
             </div>
         </div>
     </b-row>
+    <Lock :lists="lists" @status="message" ref="confirm"/>
 </template>
 <script>
+import Lock from '../Modals/Lock.vue';
 import { SimpleBar } from 'simplebar-vue3';
 export default {
-    components: { SimpleBar },
+    components: { SimpleBar, Lock },
     props: ['selected','user'],
     data() {
         return {
@@ -171,7 +173,7 @@ export default {
 
         message(list){
             this.prospectus.is_locked = list.is_locked;
-            this.$bvModal.hide("confirm"); 
+            // this.$bvModal.hide("confirm"); 
             this.$emit('status', list);  
         },
 

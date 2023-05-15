@@ -116,7 +116,7 @@
         methods: {
             set(data) {
                 this.enrollment = data;
-                console.log(this.enrollment);
+                // console.log(this.enrollment);
                 this.showModal = true;
             }
         }

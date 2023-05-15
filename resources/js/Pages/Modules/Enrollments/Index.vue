@@ -60,6 +60,7 @@
                                 <li class="list-group-item" v-for="list in scholar.enrollments" v-bind:key="list.id">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-grow-1">
+                                            <i v-if="list.is_locked" v-b-tooltip.hover title="Enrollment already locked." class="ri-lock-2-fill float-end fs-24 text-light align-middle me-2"></i>
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 avatar-xs">
                                                     <div class="avatar-title bg-soft-danger text-danger rounded">
@@ -72,7 +73,7 @@
                                                         <span class="text-info">{{ list.level }}</span>
                                                         <span class="text-muted"> / </span>
                                                         <span class="text-warning">{{ list.semester }}</span></h6>
-                                                    <small class="text-muted">{{ list.created_at}}</small>
+                                                    <small class="text-muted">{{ list.created_at}}</small>  
                                                 </div>
                                             </div>
                                         </div>
@@ -174,8 +175,9 @@ export default {
                     this.scholar.id, 
                     this.scholar.profile, 
                     this.scholar.education.school, 
-                    this.scholar.education.course);
-                    this.show = 'course';
+                    this.scholar.education.course
+                );
+                this.show = 'course';
             }else{
                 this.viewProspectus();
             }
@@ -252,6 +254,9 @@ export default {
                         this.scholar.education.school.is_enrolled = true;
                     }
                 break;
+                // case 'lists': 
+                //     console.log(list);
+                // break;
                 default:
                     this.selected = list;
                     index = this.scholar.enrollments.findIndex(u => u.id === list.id);

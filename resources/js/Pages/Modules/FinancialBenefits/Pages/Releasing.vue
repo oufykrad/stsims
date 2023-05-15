@@ -4,7 +4,7 @@
             <div class="page-title-left mt-2">
                 <ol class="breadcrumb m-0 fs-15">
                     <li class="breadcrumb-item fw-bold">{{ info.month }}</li>
-                    <li class="breadcrumb-item active"><span class="fw-bold text-primary">Release no.{{ info.count + 1 }}</span></li>
+                    <li class="breadcrumb-item active"><span class="fw-bold text-primary">Batch {{ info.count + 1 }}</span></li>
                 </ol>
             </div> 
         </div>

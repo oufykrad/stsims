@@ -74018,18 +74018,12 @@ function PickerInput(originalProps, {
   });
   const isValidValue = (value) => {
     if (props.range) {
-      return isValidRangeDate(value);
+      return isValidRangeDate(value) && value.every((date) => !props.disabledDate(date));
     }
     if (props.multiple) {
-      return isValidDates(value);
+      return isValidDates(value) && value.every((date) => !props.disabledDate(date));
     }
-    return isValidDate(value);
-  };
-  const isDisabledValue = (value) => {
-    if (Array.isArray(value)) {
-      return value.some((v) => props.disabledDate(v));
-    }
-    return props.disabledDate(value);
+    return isValidDate(value) && !props.disabledDate(value);
   };
   const text = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => {
     if (userInput.value !== null) {
@@ -74076,7 +74070,7 @@ function PickerInput(originalProps, {
     } else {
       date = props.parseDate(text2);
     }
-    if (isValidValue(date) && !isDisabledValue(date)) {
+    if (isValidValue(date)) {
       props.onChange(date);
     } else {
       (_a = props.onInputError) == null ? void 0 : _a.call(props, text2);

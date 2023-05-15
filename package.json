@@ -30,7 +30,7 @@
         "prismjs": "^1.29.0",
         "simplebar-vue3": "^0.2.0",
         "vue": "^3.2.47",
-        "vue-datepicker-next": "^1.0.3",
+        "vue-datepicker-next": "^1.0.2",
         "vue-flatpickr-component": "^11.0.1",
         "vue3-apexcharts": "^1.4.1",
         "vue3-loading-overlay": "^0.0.0"

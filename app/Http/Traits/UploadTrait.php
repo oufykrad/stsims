@@ -27,6 +27,7 @@ trait UploadTrait {
                 $file_path = $file->storeAs('uploads/'.$code.'/Enrollments', $file_name, 'public');
             }
             return $attachment = [
+                'name' => $file_name,
                 'file' => $file_path,
                 'added_by' => \Auth::user()->id,
                 'created_at' => date('M d, Y g:i a', strtotime(now()))
@@ -34,7 +35,7 @@ trait UploadTrait {
         }
     }
 
-    public function grade($request,$enrollment){
+    public function grade($request,$enrollment,$count){
         if($request->hasFile('files'))
         {   
             $level = ListDropdown::where('id',$enrollment->level_id)->pluck('name');
@@ -44,19 +45,23 @@ trait UploadTrait {
             $code = $request->scholar_id;
             
             $files = $request->file('files');   
-            foreach ($files as $key=>$file) {
-                if($key == 0){
+            foreach ($files as $file) {
+                if($count == 0){
                     $file_name = 'grades_'.$level[0].'-'.$academic_year.'-'.$semester_name.'.'.$file->getClientOriginalExtension();
                 }else{
-                    $file_name = 'grades_'.$level[0].'-'.$academic_year.'-'.$semester_name.'-'.$key.'.'.$file->getClientOriginalExtension();
+                    $file_name = 'grades_'.$level[0].'-'.$academic_year.'-'.$semester_name.'-'.$count.'.'.$file->getClientOriginalExtension();
+                    $count++;
                 }
                 $file_path = $file->storeAs('uploads/'.$code.'/Grades', $file_name, 'public');
+
+                $attachment[] = [
+                    'name' => $file_name,
+                    'file' => $file_path,
+                    'added_by' => \Auth::user()->id,
+                    'created_at' => date('M d, Y g:i a', strtotime(now()))
+                ];
             }
-            return $attachment = [
-                'file' => $file_path,
-                'added_by' => \Auth::user()->id,
-                'created_at' => date('M d, Y g:i a', strtotime(now()))
-            ];
+            return $attachment;
         }
     }
 
@@ -76,6 +81,31 @@ trait UploadTrait {
                 'added_by' => \Auth::user()->id,
                 'created_at' => date('M d, Y g:i a', strtotime(now()))
             ];
+        }
+    }
+
+    public function release($request){
+        if($request->hasFile('attachment'))
+        {   
+            $id = $request->batch;
+            $year = date('Y');
+            $files = $request->file('attachment');   
+            foreach ($files as $key=>$file) {
+                if($key == 0){
+                    $file_name = 'release_'.$id.'_'.$year.'.'.$file->getClientOriginalExtension();
+                }else{
+                    $file_name = 'release_'.$id.'_'.$year.'-'.$key.'.'.$file->getClientOriginalExtension();
+                }
+                $file_path = $file->storeAs('benefits', $file_name, 'public');
+                
+                $attachment[] = [
+                    'name' => $file_name,
+                    'file' => $file_path,
+                    'added_by' => \Auth::user()->id,
+                    'created_at' => date('M d, Y g:i a', strtotime(now()))
+                ];
+            }
+            return $attachment;
         }
     }
 }

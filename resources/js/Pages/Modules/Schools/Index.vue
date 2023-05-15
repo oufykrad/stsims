@@ -96,7 +96,7 @@ export default {
     },
     created(){
         this.fetch();
-        this.countSync();
+        // this.countSync();
     },
     watch: {
         region(newVal) {

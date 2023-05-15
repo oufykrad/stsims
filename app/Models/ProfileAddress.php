@@ -10,7 +10,7 @@ class ProfileAddress extends Model
     use HasFactory;
 
     protected $fillable = [
-        'region_code', 'province_code', 'municipality_code', 'barangay_code', 'address', 'type', 'scholar_id', 'is_completed'
+        'region_code', 'province_code', 'municipality_code', 'barangay_code', 'address', 'type', 'profile_id', 'district', 'is_completed'
     ];
 
     public function profile()

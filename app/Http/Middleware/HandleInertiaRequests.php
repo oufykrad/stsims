@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 // use App\Models\College;
 // use App\Models\Course;
+use App\Models\ListPrivilege;
+use App\Models\ListExpense;
 use App\Models\ListProgram;
 use App\Models\ListDropdown;
 use App\Models\LocationRegion;
@@ -33,6 +35,8 @@ class HandleInertiaRequests extends Middleware
             'regions' => LocationRegion::all(),
             'dropdowns' => ListDropdown::all(),
             'programs' => ListProgram::all(),
+            'expenses' => ListExpense::all(),
+            'privileges' => ListPrivilege::all(),
             // 'colleges' => College::all(),
             // 'courses' => Course::all(),
             // 'dropdowns' => Dropdown::all(),

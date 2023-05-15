@@ -83,6 +83,7 @@ class ImportController extends Controller
                             'old_id' =>  $scholar['id'],
                             'awarded_year' =>  $scholar['awarded_year'],
                             'spas_id' => $scholar['spas'],
+                            'account_no' => $scholar['account_no'],
                             'created_at'	=> now(),
                             'updated_at'	=> now()
                         ];
@@ -165,6 +166,7 @@ class ImportController extends Controller
                     'barangay' => $row[16],
                     'category' => $row[17],
                     'spas' => $row[18],
+                    'account_no' => $row[19],
                 ];
             }
         }

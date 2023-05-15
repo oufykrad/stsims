@@ -8,6 +8,7 @@ use App\Models\BenefitList;
 use App\Models\BenefitRelease;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Traits\UploadTrait;
 use App\Http\Requests\ReleaseRequest;
 use App\Http\Resources\Benefit\ListResource;
 use App\Http\Resources\NameResource;
@@ -16,6 +17,8 @@ use App\Http\Resources\Scholar\Sub\ReleaseResource;
 
 class IndexController extends Controller
 {
+    use UploadTrait;
+
     public function index(Request $request){
         $keyword = $request->keyword;
         if($request->search){
@@ -28,6 +31,9 @@ class IndexController extends Controller
             ->when($year, function ($query, $year) {
                 $query->whereYear('created_at',$year);
             })
+            ->when($keyword, function ($query, $keyword) {
+                $query->where('batch','LIKE','%'.$keyword.'%');
+            })
             ->paginate($request->count)
             ->withQueryString();
             return ReleaseResource::collection($data);
@@ -37,31 +43,49 @@ class IndexController extends Controller
     }
 
     public function store(ReleaseRequest $request){
-        $data = \DB::transaction(function () use ($request){
-            $attachment = [];
-            $count = BenefitRelease::count();
-            $data = BenefitRelease::create(
-                array_merge($request->all(),[
-                    'attachment' => json_encode($attachment),
-                    'added_by' => \Auth::user()->id
-                ])
-            );
-            foreach($request->lists as $list){
-                foreach($list['benefits'] as $benefit){
-                    $benefit = BenefitList::where('id',$benefit['id'])->first();
-                    $benefit->status_id = 56;
-                    $benefit->release_id = $data->id;
-                    $benefit->save();
+        if($request->type == 'Completed'){
+            $data = \DB::transaction(function () use ($request){
+                $attachments = $this->release($request);
+                $benefit = BenefitList::where('release_id',$request->id)->update(['status_id' => 56]);
+                $data = BenefitRelease::where('id',$request->id)->update(['status_id' => 56, 'attachment' => json_encode($attachments)]);
+                $data = BenefitRelease::where('id',$request->id)->first();
+                return new ReleaseResource($data);
+            });
+            
+            return back()->with([
+                'message' => 'Mark as completed. Thanks',
+                'data' =>  $data,
+                'type' => 'bxs-check-circle'
+            ]); 
+        }else{
+            $data = \DB::transaction(function () use ($request){
+                $attachment = [];
+                $count = BenefitRelease::whereYear('created_at',now())->count();
+                $data = BenefitRelease::create(
+                    array_merge($request->all(),[
+                        'attachment' => json_encode($attachment),
+                        'added_by' => \Auth::user()->id,
+                        'batch' => str_pad(($count+1), 5, '0', STR_PAD_LEFT),
+                        'status_id' => 55
+                    ])
+                );
+                foreach($request->lists as $list){
+                    foreach($list['benefits'] as $benefit){
+                        $benefit = BenefitList::where('id',$benefit['id'])->first();
+                        $benefit->status_id = 57;
+                        $benefit->release_id = $data->id;
+                        $benefit->save();
+                    }
                 }
-            }
-            return $data;
-        });
+                return $data;
+            });
 
-        return back()->with([
-            'message' => 'Released was successfull. Thanks',
-            'data' =>  $data,
-            'type' => 'bxs-check-circle'
-        ]); 
+            return back()->with([
+                'message' => 'Released was successfull. Thanks',
+                'data' =>  $data,
+                'type' => 'bxs-check-circle'
+            ]); 
+        }
     }
 
     public function create(Request $request){

@@ -16,4 +16,9 @@ class LocationBarangay extends Model
     {
         return $this->belongsTo('App\Models\LocationMunicipality', 'municipality_code', 'code');
     }
+
+    public function scholars()
+    {
+        return $this->hasMany('App\Models\ProfileAddress', 'municipality_code');
+    } 
 }

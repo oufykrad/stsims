@@ -107,8 +107,9 @@ trait AddressTrait {
         // }else{
         //     $is_completed = 1;
         // }
-        $is_completed = 1;
-        $is_within = 1;
+        $is_completed = 0;
+        $is_within = 0;
+        $district = null;
 
         if($province){
             $data = LocationProvince::with('region')
@@ -121,7 +122,7 @@ trait AddressTrait {
                 $is_within = 0;
             }
         }
-        if($municipality){
+        if($municipality != null){
             $m = LocationMunicipality::where(function($query) use ($municipality) {  
                 $query->where('name','LIKE', '%'.$municipality.'%');
             })
@@ -132,14 +133,14 @@ trait AddressTrait {
             })
             ->first();
             
-            if($m){
+            if($m != null){
                 $municipality = $m->code;
+                $district = $m->district;
             }else{
-                $is_completed = 0;
                 $municipality = null;
             }
         }
-        if($barangay){
+        if($barangay != null){
             $b = LocationBarangay::where(function($query) use ($barangay) {  
                 $query->where('name','LIKE', '%'.$barangay.'%');
             })
@@ -150,10 +151,11 @@ trait AddressTrait {
             })
             ->first();
 
-            if($b){
+            if($b != null){
                 $barangay = $b->code;
+                $district = $b->district;
+                $is_completed = 1;
             }else{
-                $is_completed = 0;
                 $barangay = null;
             }
         }
@@ -167,6 +169,7 @@ trait AddressTrait {
             'region_code' => $region,
             'profile_id' => $id,
             'is_completed' => $is_completed,
+            'district' => $district,
             'created_at' => now(),
             'updated_at' => now()
         ];

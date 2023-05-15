@@ -61,9 +61,27 @@
                     </Link>
                 </li>
                 <li class="nav-item">
+                    <Link class="nav-link menu-link" :class="{'active': $page.component.startsWith('Modules/Reimbursements') }" href="/reimbursements">
+                        <i class='ri-refund-fill' ></i>
+                        <span data-key="t-students">Reimbursements</span>
+                    </Link>
+                </li>
+                <li class="nav-item">
+                    <Link class="nav-link menu-link" :class="{'active': $page.component.startsWith('Modules/Accounting') }" href="/accounting">
+                        <i class='ri-hand-coin-fill' ></i>
+                        <span data-key="t-students">Accounting</span>
+                    </Link>
+                </li>
+                <li class="nav-item">
                     <Link class="nav-link menu-link" :class="{'active': $page.component.startsWith('Modules/Insights') }" href="/insights">
                         <i class='ri-line-chart-fill' ></i>
                         <span data-key="t-students">Insights</span>
+                    </Link>
+                </li>
+                <li class="nav-item">
+                    <Link class="nav-link menu-link" :class="{'active': $page.component.startsWith('Modules/Settings') }" href="/settings">
+                        <i class='ri-settings-5-fill' ></i>
+                        <span data-key="t-students">Settings</span>
                     </Link>
                 </li>
             </ul>

@@ -4,6 +4,7 @@ namespace App\Http\Resources\Scholar;
 
 use Hashids\Hashids;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Scholar\Sub\EnrollmentResource;
 
 class IndexResource extends JsonResource
 {
@@ -24,6 +25,8 @@ class IndexResource extends JsonResource
             'spas_id' => ($this->scholar->spas_id == null) ? 'SPAS-'.str_pad(mt_rand(1,99999999),6,'0',STR_PAD_LEFT) : $this->scholar->spas_id,
             'awarded_year' => $this->scholar->awarded_year,
             'program' => $this->scholar->program,
+            'benefits' => $this->scholar->benefits,
+            'enrollments' => EnrollmentResource::collection($this->scholar->enrollments),
             'status' => $this->scholar->status,
             'is_completed' => $this->scholar->is_completed,
             'is_undergrad' => $this->scholar->is_undergrad,

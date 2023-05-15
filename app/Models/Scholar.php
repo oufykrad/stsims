@@ -11,6 +11,7 @@ class Scholar extends Model
 
     protected $fillable = [
         'spas_id',
+        'account_no',
         'lrn', 
         'program_id',
         'status_id',
@@ -27,10 +28,10 @@ class Scholar extends Model
         return $this->belongsTo('App\Models\Profile', 'profile_id', 'id');
     }
 
-    public function address()
-    {
-        return $this->hasOne('App\Models\ScholarAddress', 'scholar_id');
-    } 
+    // public function address()
+    // {
+    //     return $this->hasOne('App\Models\ProfileAddress', 'scholar_id');
+    // } 
     
     public function tracer()
     {

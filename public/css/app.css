@@ -10576,6 +10576,168 @@ div.dtr-modal div.dtr-modal-close:hover {
   cursor: default;
 }
 
+.mx-datepicker {
+  width: 100% !important;
+  font-family: var(--vz-font-sans-serif) !important;
+}
+
+.mx-input {
+  display: block !important;
+  height: calc(1.5em + 1rem + 2px) !important;
+  padding: 0.5rem 0.9rem !important;
+  font-family: !important;
+  font-size: 0.8125rem;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  color: var(--vz-body-color) !important;
+  background-color: var(--vz-input-bg) !important;
+  background-clip: padding-box;
+  border: 1px solid var(--vz-input-border) !important;
+  box-shadow: none !important;
+}
+
+.mx-calendar {
+  font-family: var(--vz-font-sans-serif) !important;
+}
+
+.mx-datepicker-popup {
+  box-shadow: 0 5px 10px rgba(30, 32, 37, 0.12) !important;
+  border: none !important;
+  background-color: white !important;
+}
+
+.mx-panel-date td,
+.mx-panel-date th {
+  border-radius: 30px;
+}
+
+.mx-calendar-content .cell.disabled,
+.inrange {
+  background-color: #f6f8fa !important;
+}
+
+.mx-calendar-content .cell:hover,
+.mx-calendar-content .cell.actived {
+  color: #ced4da;
+}
+
+.mx-shortcuts-wrapper .mx-shortcuts {
+  color: #adb5bd !important;
+}
+
+.datepicker__month-button {
+  font: normal normal normal 24px/1 "Material Design Icons";
+  font-size: inherit;
+  display: unset !important;
+  height: 0px !important;
+  width: 20px !important;
+  line-height: 40px;
+}
+
+.datepicker__month-button--next::before {
+  content: "\f013e";
+}
+
+.datepicker__month-button--prev::before {
+  content: "\f013d";
+}
+
+.datepicker__header {
+  margin-bottom: 13px;
+}
+
+[dir=rtl] .datepicker {
+  right: 0 !important;
+  left: auto;
+}
+
+[dir=rtl] .bootstrap-timepicker-widget {
+  right: 0 !important;
+  left: auto;
+}
+[dir=rtl] .timepicker-orient-top {
+  top: calc(1.5em + 1rem + 2px) !important;
+}
+[dir=rtl] .timepicker-orient-bottom {
+  top: auto !important;
+  bottom: calc(1.5em + 1rem + 2px) !important;
+}
+
+.datepicker {
+  border: 1px solid var(--vz-border-color);
+  padding: 8px;
+  z-index: 999 !important;
+}
+.datepicker table tr th {
+  font-weight: 500;
+}
+.datepicker table tr td.active, .datepicker table tr td.active:hover,
+.datepicker table tr td .active.disabled, .datepicker table tr td.active.disabled:hover, .datepicker table tr td.today, .datepicker table tr td.today:hover, .datepicker table tr td.today.disabled, .datepicker table tr td.today.disabled:hover, .datepicker table tr td.selected, .datepicker table tr td.selected:hover, .datepicker table tr td.selected.disabled, .datepicker table tr td.selected.disabled:hover,
+.datepicker table tr td span.active.active,
+.datepicker table tr td span.active:hover.active {
+  background-color: #405189 !important;
+  background-image: none;
+  box-shadow: none;
+  color: #fff !important;
+}
+.datepicker table tr td.day.focused, .datepicker table tr td.day:hover,
+.datepicker table tr td span.focused,
+.datepicker table tr td span:hover {
+  background: #f3f6f9;
+}
+.datepicker table tr td.new, .datepicker table tr td.old,
+.datepicker table tr td span.new,
+.datepicker table tr td span.old {
+  color: #adb5bd;
+  opacity: 0.6;
+}
+.datepicker table tr td.range, .datepicker table tr td.range.disabled, .datepicker table tr td.range.disabled:hover, .datepicker table tr td.range:hover {
+  background-color: #e9ebec;
+}
+
+.table-condensed > thead > tr > th,
+.table-condensed > tbody > tr > td {
+  padding: 7px;
+}
+
+.bootstrap-datepicker-inline .datepicker-inline {
+  width: auto !important;
+  display: inline-block;
+}
+
+.datepicker-container {
+  border: 1px solid var(--vz-border-color);
+  box-shadow: none;
+  background-color: #fff;
+}
+.datepicker-container.datepicker-inline {
+  width: 212px;
+}
+
+.datepicker-panel > ul > li {
+  background-color: #fff;
+  border-radius: 4px;
+}
+.datepicker-panel > ul > li.picked, .datepicker-panel > ul > li.picked:hover {
+  background-color: rgba(64, 81, 137, 0.25);
+  color: #405189;
+}
+.datepicker-panel > ul > li.highlighted, .datepicker-panel > ul > li.highlighted:hover, .datepicker-panel > ul > li:hover {
+  background-color: #405189;
+  color: #fff;
+}
+.datepicker-panel > ul > li.muted, .datepicker-panel > ul > li.muted:hover {
+  color: #adb5bd;
+  opacity: 0.6;
+}
+.datepicker-panel > ul[data-view=week] > li {
+  font-weight: 500;
+}
+.datepicker-panel > ul[data-view=week] > li,
+.datepicker-panel > ul[data-view=week] > li:hover {
+  background-color: #fff;
+}
+
 .toastify {
   padding: 12px 16px;
   color: #fff;
@@ -16080,6 +16242,40 @@ File: Custom Css File
     transform: rotate(1turn);
   }
 }
+.datepicker__input {
+  background-color: var(--vz-input-bg);
+  height: calc(1.5em + 1rem + 2px) !important;
+  line-height: 2.5 !important;
+}
+
+.vnis__input,
+.datepicker__wrapper,
+.datepicker__inner,
+.datepicker__input {
+  background-color: var(--vz-input-bg) !important;
+  color: var(--vz-body-color) !important;
+  border-color: var(--vz-input-border) !important;
+}
+
+.datepicker__dummy-wrapper {
+  overflow: hidden;
+  border-color: var(--vz-input-border) !important;
+}
+
+.datepicker__input:focus {
+  outline: 0px solid !important;
+}
+
+.datepicker__month-day--allowed-checkout:hover,
+.datepicker__month-day--valid:hover {
+  background-color: #405189 !important;
+  color: #fff !important;
+}
+
+.mx-datepicker .mx-icon-calendar {
+  color: var(--vz-body-color) !important;
+}
+
 .haveerror {
   color: red;
   font-size: 9px;
@@ -16097,4 +16293,28 @@ File: Custom Css File
 
 .customform input {
   margin-bottom: 5px;
+}
+
+.multiselect {
+  padding: 0;
+}
+
+.multiselect-wrapper {
+  min-height: 35px !important;
+}
+
+.customform .form-group {
+  margin-top: -10px;
+}
+
+.form-control {
+  height: 41px;
+}
+
+.multiselect, .multiselect__input, .multiselect__single {
+  font-size: 13px;
+}
+
+.multiselect__placeholder {
+  font-size: 13px;
 }

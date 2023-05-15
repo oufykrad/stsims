@@ -27,6 +27,7 @@ return new class extends Migration
             $table->foreign('municipality_code')->references('code')->on('location_municipalities')->onDelete('cascade');
             $table->string('barangay_code')->nullable()->constrained();
             $table->foreign('barangay_code')->references('code')->on('location_barangays')->onDelete('cascade');
+            $table->string('district')->nullable();
             $table->bigInteger('profile_id')->unsigned()->index();
             $table->foreign('profile_id')->references('id')->on('profiles')->onDelete('cascade');
             $table->boolean('is_completed')->default(0);

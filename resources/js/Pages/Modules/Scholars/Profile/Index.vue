@@ -57,27 +57,27 @@
                             </b-link>
                         </li>
                         <li class="nav-item">
-                            <b-link class="nav-link fs-12" data-bs-toggle="tab" href="#activities" role="tab">
+                            <b-link class="nav-link fs-12" data-bs-toggle="tab" href="#financial" role="tab">
                                 <i class="ri-list-unordered d-inline-block d-md-none"></i>
                                 <span class="d-none d-md-inline-block">Financial Benefits</span>
                             </b-link>
                         </li>
                         <li class="nav-item">
-                            <b-link class="nav-link fs-12" data-bs-toggle="tab" href="#projects" role="tab">
+                            <b-link class="nav-link fs-12" data-bs-toggle="tab" href="#enrollment" role="tab">
                                 <i class="ri-price-tag-line d-inline-block d-md-none"></i>
                                 <span class="d-none d-md-inline-block">Enrollments</span>
                             </b-link>
                         </li>
                         <li class="nav-item">
-                            <b-link class="nav-link fs-12" data-bs-toggle="tab" href="#activities" role="tab">
-                                <i class="ri-list-unordered d-inline-block d-md-none"></i>
-                                <span class="d-none d-md-inline-block">Online Grades</span>
+                            <b-link class="nav-link fs-12" data-bs-toggle="tab" href="#history" role="tab">
+                                <i class="ri-folder-4-line d-inline-block d-md-none"></i>
+                                <span class="d-none d-md-inline-block">Employment History</span>
                             </b-link>
                         </li>
                         <li class="nav-item">
-                            <b-link class="nav-link fs-12" data-bs-toggle="tab" href="#documents" role="tab">
+                            <b-link class="nav-link fs-12" data-bs-toggle="tab" href="#prospectus" role="tab">
                                 <i class="ri-folder-4-line d-inline-block d-md-none"></i>
-                                <span class="d-none d-md-inline-block">Employment History</span>
+                                <span class="d-none d-md-inline-block">Prospectus</span>
                             </b-link>
                         </li>
                     </ul>
@@ -89,14 +89,19 @@
                 <div class="tab-content pt-4 text-muted">
                     
                     <div class="tab-pane active" id="overview-tab" role="tabpanel"> 
-                        <b-row>
-                            <b-col xxl="12">
-                                <b-card no-body>
-                                    <b-card-body style="height: 1000px;">
-                                    </b-card-body>
-                                </b-card>
-                            </b-col>
-                        </b-row>
+                        <Overview />
+                    </div>
+                    <div class="tab-pane" id="financial" role="tabpanel"> 
+                        <Financial />
+                    </div>
+                    <div class="tab-pane" id="enrollment" role="tabpanel"> 
+                        <Enrollment :enrollments="scholar.enrollments"/>
+                    </div>
+                    <div class="tab-pane" id="history" role="tabpanel"> 
+                        <History />
+                    </div>
+                    <div class="tab-pane" id="prospectus" role="tabpanel"> 
+                        <Prospectus :prospectus="scholar.education.information.prospectus"/>
                     </div>
                 </div>
             </div>
@@ -105,7 +110,14 @@
 </template>
 
 <script>
+import Grade from './Grade.vue';
+import History from './History.vue';
+import Prospectus from './Prospectus.vue';
+import Overview from './Overview.vue';
+import Financial from './Financial.vue';
+import Enrollment from './Enrollment.vue';
 export default {
+    components : { Overview, Financial, Enrollment, Grade, History, Prospectus },
     props: ['user'],
     data(){
         return {

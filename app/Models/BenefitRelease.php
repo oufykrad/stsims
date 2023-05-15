@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class BenefitRelease extends Model
 {
     protected $fillable = [
-        'dv_no', 'batch', 'number', 'added_by', 'attachment', 'total'
+        'dv_no', 'batch', 'added_by', 'attachment', 'total', 'status_id'
     ];
 
     public function user()
@@ -20,6 +20,11 @@ class BenefitRelease extends Model
     {
         return $this->hasMany('App\Models\BenefitList', 'release_id');
     } 
+
+    public function status()
+    {
+        return $this->belongsTo('App\Models\ListDropdown', 'status_id', 'id');
+    }
 
     public function getUpdatedAtAttribute($value)
     {

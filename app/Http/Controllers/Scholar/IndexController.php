@@ -24,7 +24,6 @@ class IndexController extends Controller
     }
 
     public function index(Request $request){
-
         if($request->search == 'search'){
             $data = SearchResource::collection(
                 Profile::with('user')
@@ -47,7 +46,7 @@ class IndexController extends Controller
             $data = IndexResource::collection(
                 Profile::
                 with('address.region','address.province','address.municipality','address.barangay','user')
-                ->with('scholar.program')
+                ->with('scholar.program','scholar.benefits.semester.semester','scholar.enrollments.lists')
                 ->with('scholar.education.school.school','scholar.education.course')
                 ->when($info->keyword, function ($query, $keyword) {
                     $query->where(\DB::raw('concat(firstname," ",lastname)'), 'LIKE', '%'.$keyword.'%')

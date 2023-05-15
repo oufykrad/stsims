@@ -4,7 +4,7 @@
             <div class="input-group mb-1">
                 <label class="input-group-text bg-light"> <i class='bx bx-search-alt'></i></label>
                 <input type="text" class="form-control" style="width: 25%;" placeholder="Search..." v-model="keyword" @keyup="fetch()"/>
-                <select  v-model="level" @change="fetch()" placeholder="Choose Level" class="form-select" :class="(term == null) ? 'text-muted' : ''" style="width: 120px;">
+                <select  v-model="month" @change="fetch()" placeholder="Choose Level" class="form-select" :class="(term == null) ? 'text-muted' : ''" style="width: 120px;">
                     <option :value="null" selected>Select Month</option>
                     <option :value="m" v-for="(m,index) in months" v-bind:key="index">{{ m }}</option>
                 </select>
@@ -20,24 +20,29 @@
                             <th class="text-center">Receiver</th>
                             <th class="text-center">Total</th>
                             <th class="text-center">Added By</th>
-                            <th class="text-center">Created At</th>
+                            <th class="text-center">Released Date</th>
+                            <th class="text-center">Status</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="list in lists" v-bind:key="list.id">
+                        <tr v-for="(list,index) in lists" v-bind:key="list.id">
                             <td>
                                 <h5 class="fs-14 mb-0 text-dark">{{list.month}}</h5>
-                                <p class="fs-12 text-muted mb-0">Release no.{{list.number }}</p>
+                                <p class="fs-12 text-muted mb-0">Batch {{list.batch }}</p>
                             </td>
                             <td class="text-center">{{list.lists.length}} scholars</td>
                             <td class="text-center"> ₱{{ formatMoney(list.total) }}</td>
                             <td class="text-center">{{list.added_by.firstname}} {{list.added_by.lastname}}</td>
                             <td class="text-center">{{list.created_at}}</td>
+                            <td class="text-center">
+                                <span :class="'badge bg-'+list.status.color">{{list.status.name}}</span>
+                            </td>
                             <td class="text-end">
-                                <b-button @click="print(list.id)" variant="soft-success" v-b-tooltip.hover title="Print" size="sm" class="edit-list me-1"><i class="ri-printer-fill align-bottom"></i> </b-button>
+                                <b-button @click="print(list.id)" variant="soft-primary" v-b-tooltip.hover title="Print" size="sm" class="edit-list me-1"><i class="ri-printer-fill align-bottom"></i> </b-button>
                                 <b-button @click="viewLbp(list)" variant="soft-warning" v-b-tooltip.hover title="View LBP" size="sm" class="edit-list me-1"><i class="ri-bank-line align-bottom"></i> </b-button>
                                 <b-button @click="view(list)" variant="soft-info" v-b-tooltip.hover title="View" size="sm" class="edit-list me-1"><i class="ri-eye-fill align-bottom"></i> </b-button>
+                                <b-button v-if="list.status.name != 'Released'" @click="complete(list,index)" variant="soft-success" v-b-tooltip.hover title="Mark as Completed" size="sm" class="edit-list me-1"><i class="ri-checkbox-circle-fill align-bottom"></i> </b-button>
                             </td>
                         </tr>
                     </tbody>
@@ -69,7 +74,7 @@
                 <table class="table table-centered table-bordered table-nowrap">
                     <thead class="thead-light align-middle text-center">
                         <tr class="fw-bold fs-13 text-primary">
-                            <td colspan="2">{{selected.month.toUpperCase() }} RELEASE NO.{{selected.number}} <span class="fs-12 fw-medium text-muted">({{selected.created_at}})</span></td>
+                            <td colspan="2">{{selected.month.toUpperCase() }} BATCH {{selected.batch}} <span class="fs-12 fw-medium text-muted">({{selected.created_at}})</span></td>
                         </tr>
                         <tr class="fw-bold font-size-11">
                             <td>No. of Scholars</td>
@@ -109,13 +114,15 @@
     
     <Lists ref="lists"/>
     <LBP ref="lbp"/>
+    <Confirm ref="confirm"/>
 </template>
 <script>
+import Confirm from '../Modals/Confirm.vue';
 import LBP from '../Modals/LBP.vue';
 import Lists from '../Modals/Lists.vue';
 import Pagination from "@/Shared/Components/Pagination.vue";
 export default {
-    components: { Pagination, Lists, LBP },
+    components: { Pagination, Lists, LBP, Confirm },
     data(){
         return {
             currentUrl: window.location.origin,
@@ -127,7 +134,8 @@ export default {
             month: null,
             year: '',
             show: false,
-            selected: ''
+            selected: '',
+            index: ''
         }
     },
     created(){
@@ -162,6 +170,10 @@ export default {
             this.show = true;
             this.selected = data;
         },
+        complete(data,index){
+            this.index =  index;
+            this.$refs.confirm.set(data);
+        },
         viewLbp(data){
             this.$refs.lbp.set(data);
             axios.get(this.currentUrl+'/financial-benefits/edit/edit')
@@ -173,6 +185,9 @@ export default {
         },
         print(id){
             window.open(this.currentUrl + '/financial-benefits/'+id+'/edit');
+        },
+        update(val){
+            this.lists[this.index] = val;
         }
     }
 }
