@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserProfile;
 use App\Models\Log;
 use Illuminate\Http\Request;
 use App\Http\Resources\LogsResource;
@@ -84,11 +85,36 @@ class StaffController extends Controller
             $user = User::findOrFail($request->id);
             if($request->type === 'verify'){
                 $user->verify();
+
+                return [
+                    'data' => '',
+                    'message' => 'User verification successfully send. Thanks',
+                    'type' => 'bx-mail-send'
+                ];
             }else{
-                $user->update($request->except('img','editable'));
+                $data = User::findOrFail($request->id);
+                $data->update($request->except('img','editable'));
+                $profile = UserProfile::where('user_id',$request->id)->first();
+                $profile->update($request->except('email','role','is_active','img','editable'));
+                ($request->img != '') ? $data = $data->image($request->all()) : '';
+                $data = User::findOrFail($request->id);
+                return [
+                    'data' => $data,
+                    'message' => 'User updated successfully. Thanks',
+                    'type' => 'bxs-check-circle'
+                ];
             }
         });
-        return true;
+        
+        if($request->editable){
+            return back()->with([
+                'message' => $data['message'],
+                'data' => ($data['data'] != '') ? new StaffResource($data['data']) : '',
+                'type' => $data['type']
+            ]);
+        }else{
+            return new StaffResource($data['data']);
+        }
 
     }
 }

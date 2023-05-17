@@ -46,7 +46,7 @@
                     <button class="btn btn-light btn-sm w-md" @click="hide()" type="button">
                         <div class="btn-content">Cancel</div>
                     </button>
-                    <button class="btn btn-info btn-sm w-md" type="button">
+                    <button class="btn btn-info btn-sm w-md" type="button" :disabled="form.processing" @click="sendMail()">
                         <div class="btn-content">Submit</div>
                     </button>
                 </div>
