@@ -24,6 +24,8 @@ return new class extends Migration
             $table->foreign('benefit_id')->references('id')->on('list_privileges')->onDelete('cascade');
             $table->bigInteger('scholar_id')->unsigned()->index();
             $table->foreign('scholar_id')->references('id')->on('scholars')->onDelete('cascade');
+            $table->integer('school_semester_id')->unsigned()->index();
+            $table->foreign('school_semester_id')->references('id')->on('school_semesters')->onDelete('cascade');
             $table->bigInteger('checked_by')->unsigned()->index();
             $table->foreign('checked_by')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

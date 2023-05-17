@@ -58,6 +58,32 @@ class UserProfilesTableSeeder extends Seeder
                 'created_at' => '2023-02-11 11:04:56',
                 'updated_at' => '2023-02-11 11:04:56',
             ),
+            3 => 
+            array (
+                'id' => 9,
+                'firstname' => 'Stenel Rizza',
+                'lastname' => 'Alegre',
+                'middlename' => 'V',
+                'suffix' => NULL,
+                'gender' => 'F',
+                'mobile' => '09156383457',
+                'user_id' => 9,
+                'created_at' => '2023-05-17 08:18:48',
+                'updated_at' => '2023-05-17 08:18:48',
+            ),
+            4 => 
+            array (
+                'id' => 10,
+                'firstname' => 'Sheila',
+                'lastname' => 'Bernardo',
+                'middlename' => 'S',
+                'suffix' => NULL,
+                'gender' => 'F',
+                'mobile' => '09060775053',
+                'user_id' => 10,
+                'created_at' => '2023-05-17 08:19:38',
+                'updated_at' => '2023-05-17 08:19:38',
+            ),
         ));
         
         

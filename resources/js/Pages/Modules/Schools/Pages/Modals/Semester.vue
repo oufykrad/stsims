@@ -11,6 +11,7 @@
                         type="year" format="YYYY"
                         lang="en"
                         placeholder="Select Year"
+                        :disabled-date="disabledBeforeTodayAndAfterAWeek"
                         :clearable="false"
                         >
                     </date-picker>
@@ -35,6 +36,7 @@
                         v-model:value="semester.start"
                         type="month" format="YYYY-MM-DD"
                         lang="en"
+                        :disabled-date="disabledBeforeTodayAndAfterAWeek"
                         placeholder="Select Month"
                         >
                     </date-picker>
@@ -45,6 +47,7 @@
                         v-model:value="semester.end"
                         type="month" format="YYYY-MM-DD"
                         lang="en"
+                        :disabled-date="disabledBeforeTodayAndAfterAWeek"
                         placeholder="Select Month"
                         >
                     </date-picker>
@@ -119,6 +122,10 @@ export default {
             this.$emit('status', true);
             (this.form.hasOwnProperty('reset') ) ? this.form.reset().clearErrors() : this.semester = {};
             this.showModal = false;
+        },
+
+        disabledBeforeTodayAndAfterAWeek(date) {
+            return date < new Date('2022/12/31');
         },
     }
 }

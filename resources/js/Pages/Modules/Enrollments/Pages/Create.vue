@@ -162,6 +162,7 @@ export default {
                 }
             }
             data.append('semester_id', (this.info.semester.id != undefined) ? this.info.semester.id : '');
+            data.append('semester_id2', (this.info.semester.semester_id != undefined) ? this.info.semester.semester_id : '');
             data.append('level_id', (this.info.level.id != undefined) ? this.info.level.id : '');
             data.append('scholar_id', (this.user != undefined) ? this.user.code : '');
             data.append('lists', (this.lists.length != 0) ? JSON.stringify(this.lists) : '');

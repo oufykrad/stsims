@@ -138,6 +138,7 @@ export default {
         },
         message(){
             this.fetch();
+            this.fetchSemester();
         }
     }
 }

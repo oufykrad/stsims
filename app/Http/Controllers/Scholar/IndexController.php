@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Scholar;
 
 use Hashids\Hashids;
 use App\Models\Profile;
+use App\Models\SchoolSemester;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\Scholar\IndexResource;
@@ -24,11 +25,14 @@ class IndexController extends Controller
     }
 
     public function index(Request $request){
-        if($request->search == 'search'){
+        if($request->search == 'benefits'){
+            return $this->benefits($request->id,$request->ay,$request->semester);
+        }else if($request->search == 'search'){
             $data = SearchResource::collection(
                 Profile::with('user')
                 ->with('scholar.program','scholar.status')
                 ->with('scholar.education.school.school','scholar.education.course')
+                ->with('scholar.education.school.semesters.semester')->with('scholar.education.school.term')
                 ->when($request->keyword, function ($query, $keyword) {
                     $query->where(\DB::raw('concat(firstname," ",lastname)'), 'LIKE', '%'.$keyword.'%')
                     ->where(\DB::raw('concat(lastname," ",firstname)'), 'LIKE', '%'.$keyword.'%');
@@ -46,8 +50,9 @@ class IndexController extends Controller
             $data = IndexResource::collection(
                 Profile::
                 with('address.region','address.province','address.municipality','address.barangay','user')
-                ->with('scholar.program','scholar.benefits.semester.semester','scholar.enrollments.lists')
+                ->with('scholar.program','scholar.benefits.semester.semester','scholar.benefits.benefit','scholar.enrollments.lists')
                 ->with('scholar.education.school.school','scholar.education.course')
+                ->with('scholar.education.school.semesters.semester')->with('scholar.education.school.term')
                 ->when($info->keyword, function ($query, $keyword) {
                     $query->where(\DB::raw('concat(firstname," ",lastname)'), 'LIKE', '%'.$keyword.'%')
                     ->where(\DB::raw('concat(lastname," ",firstname)'), 'LIKE', '%'.$keyword.'%');
@@ -118,9 +123,36 @@ class IndexController extends Controller
         $hashids = new Hashids('krad',10);
         $id = $hashids->decode($data);
         
-        $data = Profile::with('scholar.education.school','address.region','address.province','address.municipality','address.barangay')->where('id',$id)->first();
+        $data = Profile::with('scholar.education.school','scholar.benefits.semester.semester','scholar.benefits.benefit','address.region','address.province','address.municipality','address.barangay')
+        ->with('scholar.education.school.semesters.semester')->with('scholar.education.school.term')
+        ->where('id',$id)->first();
+
+        $benefits = $this->benefits($id,null,null);
+
         return inertia('Modules/Scholars/Profile/Index',[
-            'user' => new IndexResource($data)
+            'user' => new IndexResource($data),
+            'benefits' => $benefits
         ]);
+    }
+
+    public function benefits($id,$ay,$semester){
+        $lists = SchoolSemester::with('semester','benefits.benefit')->with(['benefits' => function($query) use ($id){ 
+            $query->where('scholar_id',$id)->where('status_id',56);
+        }])
+        ->withSum(
+            ['benefits' => function($query) use ($id) {
+                $query->where('scholar_id', $id)->where('status_id',56);
+            }],
+            'amount'
+        )
+        ->when($ay, function ($query, $ay) {
+            $query->where('academic_year',$ay);
+        })
+        ->when($semester, function ($query, $semester) {
+            $query->where('semester_id',$semester);
+        })
+        ->get();
+
+        return $lists;
     }
 }

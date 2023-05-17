@@ -111,7 +111,6 @@ class IndexController extends Controller
             'scholars' => NameResource::collection($scholars),
             'month' => date('F', mktime(0, 0, 0, date("m"), 10)),
             'count' => BenefitRelease::whereYear('created_at', '=', date("Y"))->whereMonth('created_at', '=', date("m"))->count()
-
         ];
         return $data;
     }

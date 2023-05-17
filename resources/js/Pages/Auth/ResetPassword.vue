@@ -16,7 +16,7 @@
                                 <div class="col-10">
                                     <div class="text-primary mt-1">
                                         <h4>DOST - STSIMS</h4>
-                                        <p class="mt-n2">Sign In to continue</p>
+                                        <p class="mt-n2">Reset Password</p>
                                     </div>
                                 </div>
                             </div>
@@ -27,7 +27,7 @@
                         </div>
 
                         <form class="customform" @submit.prevent="submit">
-                            <div class="mb-3">
+                            <div class="mb-2">
                             <label for="email" class="form-label">Email</label>
                             <input type="text" class="form-control" id="email" placeholder="Enter email" v-model="form.email" />
                             <div class="invalid-feedback">
@@ -35,38 +35,34 @@
                             </div>
                             </div>
 
-                            <div class="mb-3">
-                         
-                            <label class="form-label" for="password-input">Password</label>
-                            <div class="position-relative auth-pass-inputgroup mb-3">
-                                <input :type="(!form.showPassword) ? 'password' : 'text'"  v-model="form.password" class="form-control pe-5" placeholder="Enter password"
-                                id="password-input" />
-                                <b-button @click="toggleShow" variant="link" class="position-absolute end-0 top-0 text-decoration-none text-muted"
-                                type="button" id="password-addon">
-                                <i class="ri-eye-fill align-middle"></i>
-                                </b-button>
-                                <div class="invalid-feedback">
-                                <span></span>
+                            <div class="mb-2">
+                                <label class="form-label" for="password-input">Password</label>
+                                <div class="position-relative auth-pass-inputgroup">
+                                    <input :type="(!form.showPassword) ? 'password' : 'text'"  v-model="form.password" class="form-control pe-5" placeholder="Enter password" id="password-input" />
+                                    <b-button @click="toggleShow" variant="link" class="position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon">
+                                        <i class="ri-eye-fill align-middle"></i>
+                                    </b-button>
+                                    <div class="invalid-feedback">
+                                        <span></span>
+                                    </div>
                                 </div>
                             </div>
-                            </div>
 
-                            <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="auth-remember-check" />
-                            <label class="form-check-label" for="auth-remember-check">Remember
-                                me</label>
+                            <div class="mb-2">
+                                <label class="form-label" for="password-input">Confirm Password</label>
+                                <div class="position-relative auth-pass-inputgroup">
+                                    <input :type="(!form.showPassword) ? 'password' : 'text'"  v-model="form.password_confirmation" class="form-control pe-5" placeholder="Enter password" id="password-input" />
+                                    <div class="invalid-feedback">
+                                        <span></span>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="mt-4">
                                  <div v-if="Object.keys(form.errors).length != 0" class="alert alert-warning text-center mt-4 mb-4" role="alert" v-text="form.errors.email"></div>
                                 <b-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing" variant="primary" class="w-100" type="submit">
-                                    Sign In
+                                    Reset Password
                                 </b-button>
-                            </div>
-                            <div class="mt-4 text-center">
-                                <p class="mb-0">Forgot your password? 
-                                    <Link href="/forgot-password" class="fw-semibold text-primary text-decoration-underline"> Click here</Link>
-                                </p>
                             </div>
 
                         </form>
@@ -90,24 +86,25 @@ export default {
 }
 </script>
 <script setup>
-import { useForm } from '@inertiajs/inertia-vue3';
+import { useForm } from '@inertiajs/vue3';
 
-defineProps({
-    canResetPassword: Boolean,
-    status: String,
+const props = defineProps({
+    email: String,
+    token: String,
 });
 
 const form = useForm({
-    email: 'kradjumli@gmail.com',
-    password: '123456789',
-    remember: false
+    token: props.token,
+    email: props.email,
+    password: '',
+    password_confirmation: '',
+    showPassword: false
 });
 
 const submit = () => {
-    form.post('login', {
-        onFinish: () => form.reset('password'),
-    });
+    form.post('/reset-password');
 };
+
 const toggleShow = () => {
     if(form.showPassword){
         form.showPassword = false;
@@ -116,8 +113,5 @@ const toggleShow = () => {
     }
 };
 </script>
-<style>
-.auth-page-wrapper {
-    background-color: #299cdb;
-}
-</style>
+
+

@@ -18,7 +18,7 @@ class SchoolProfileRequest extends FormRequest
                 'academic_year' => 'required',
                 'start_at' => 'required',
                 'end_at' => 'required',
-                'semester_id' => 'required',
+                'semester_id' => 'required|unique:school_semesters,semester_id,NULL,'.$this->semester_id.',academic_year,'.$this->academic_year,
                 'school_id' => 'required'
             ];
         }else if($this->option == 'prospectus'){

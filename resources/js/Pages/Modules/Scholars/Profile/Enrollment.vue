@@ -30,6 +30,7 @@
                                         <span v-else class="badge bg-success">Cleared</span>
                                     </td>
                                     <td class="text-end">
+                                        <b-button @click="print(list)" variant="soft-danger" v-b-tooltip.hover title="Print" size="sm" class="edit-list me-1"><i class="ri-printer-fill align-bottom"></i> </b-button>
                                         <b-button @click="view(list)" variant="soft-info" v-b-tooltip.hover title="View" size="sm" class="edit-list me-1"><i class="ri-eye-fill align-bottom"></i> </b-button>
                                     </td>
                                 </tr>
@@ -40,6 +41,8 @@
             </b-card>
         </b-col>
     </b-row>
+
+    
     <b-modal v-model="showModal" title="View Enrollment" header-class="p-3 bg-light" size="xl" class="v-modal-custom" modal-class="zoomIn" centered hide-footer>    
         <b-form class="customform mb-2">
             <b-row class="mt-2 mb-2">
@@ -187,7 +190,6 @@
     </b-modal>
 </template>
 <script>
-
 export default {
     props: ['enrollments'],
     data(){

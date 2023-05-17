@@ -1,23 +1,21 @@
 <template>
     <Vertical> <slot/> </Vertical>
-    <b-modal v-model="message" hide-footer class="v-modal-custom" modal-class="zoomIn" body-class="p-0" centered
-        hide-header-close>
-        <div class="text-center px-5 pt-4">
-            <div class="text-end">
-                <button type="button" class="btn-close text-end" @click="check()"></button>
-            </div>
+    <b-modal v-model="message" hide-footer class="v-modal-custom" modal-class="zoomIn" body-class="p-0" centered hide-header-close>
+        <div class="text-end me-4">
+            <button type="button" class="btn-close text-end" @click="check()"></button>
+        </div>
+        <div class="text-center px-5 pt-2">
             <div class="mt-2">
                  <div class="avatar-md mx-auto">
                     <div class="avatar-title rounded-circle bg-light">
                         <i :class="'bx '+$page.props.flash.type+' h1 mb-0 text-success'"></i>
                     </div>
                 </div>
-
-                <h4 class="mb-3 mt-4">{{$page.props.flash.message }}</h4>
+                <h5 class="mb-3 mt-4">{{$page.props.flash.message }}</h5>
             </div>
         </div>
         <div class="modal-footer bg-light p-3 mt-5 justify-content-center">
-            <p class="mb-0 text-muted">Any suggestions please contact
+            <p class="mb-0 text-muted fs-10">Any suggestions please contact
                 <b-link href="fb.com/rjumli.gov" target="_blank" class="link-secondary fw-semibold">Administrator</b-link>
             </p>
         </div>

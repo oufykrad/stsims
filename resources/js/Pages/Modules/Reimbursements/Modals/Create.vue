@@ -2,10 +2,10 @@
     <b-modal v-model="showModal" title="Create Reimbursement" style="--vz-modal-width: 600px;" header-class="p-3 bg-light" class="v-modal-custom" modal-class="zoomIn" centered no-close-on-backdrop>    
         <b-form class="customform mb-2 mt-2">
             <div class="row">
-                <div class="col-md-12 mb-3">
+                <div class="col-md-12 mb-0">
                     <form class="app-search d-none d-md-block" style="margin-top: -12px;">
                         <div class="position-relative">
-                            <input type="text" class="form-control" placeholder="Search..." autocomplete="off" id="search-options" />
+                            <input type="text" class="form-control" placeholder="Search scholar..." autocomplete="off" id="search-options" />
                             <span class="mdi mdi-magnify search-widget-icon"></span>
                             <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none" id="search-close-options"></span>
                         </div>
@@ -23,7 +23,7 @@
                             </SimpleBar>
                         </div>
                     </form>
-                    <ul class="list-unstyled mb-0 vstack gap-3" v-if="reimbursement.scholar">
+                    <ul class="list-unstyled mb-0 vstack gap-3 mb-3" v-if="reimbursement.scholar">
                         <li>
                             <hr class="mt-0 text-muted"/>
                             <div class="d-flex align-items-center">
@@ -31,6 +31,9 @@
                                     <img :src="currentUrl+'/images/avatars/'+reimbursement.scholar.profile.avatar" alt="" class="avatar-sm rounded">
                                 </div>
                                 <div class="flex-grow-1 ms-3">
+                                    <button @click="clear()" class="btn btn-outline-danger btn-sm bg-gradient waves-effect waves-light float-end mt-n1" type="button">
+                                        <div class="btn-content"> Change scholar</div>
+                                    </button>
                                     <h6 class="fs-14 mb-1 text-primary">{{reimbursement.scholar.profile.name}}</h6>
                                     <span :class="'badge bg-secondary bg-'+reimbursement.scholar.status.color">{{reimbursement.scholar.status.name}}</span>
                                 </div>
@@ -41,7 +44,7 @@
                 </div>
                 <div class="col-md-12 mb-3" v-if="reimbursement.scholar">
                     <div class="form-group">
-                    <label>AY/Semester: <span v-if="form.errors" v-text="form.errors.school_semester_id" class="haveerror"></span></label>
+                    <label>AY/Semester: <span v-if="errors" v-text="errors.school_semester_id" class="haveerror"></span></label>
                     <Multiselect
                         v-model="reimbursement.semester" 
                         id="ajax"  track-by="id"
@@ -56,7 +59,7 @@
                 </div>
                 <div class="col-md-12 mb-3" v-if="reimbursement.scholar">
                     <div class="form-group">
-                        <label>Privilege: <span v-if="form.errors" v-text="form.errors.benefit_id" class="haveerror"></span></label>
+                        <label>Privilege: <span v-if="errors" v-text="errors.benefit_id" class="haveerror"></span></label>
                         <Multiselect 
                         v-model="reimbursement.privilege" 
                         :options="lists"
@@ -66,11 +69,20 @@
                         placeholder="Select Privilege"/>
                     </div>
                 </div>
-                <div class="col-md-12" v-if="reimbursement.scholar">
+                <div class="col-md-12 mb-2" v-if="reimbursement.scholar">
                     <div class="form-group">
-                        <label>Amount: <span v-if="form.errors" v-text="form.errors.amount" class="haveerror"></span></label>
+                        <label>Amount: <span v-if="errors" v-text="errors.amount" class="haveerror"></span></label>
                         <input type="text" class="form-control" v-model="reimbursement.amount">
                     </div>
+                </div>
+                <div class="col-md-12" v-if="reimbursement.scholar">
+                    <div class="form-group">
+                        <label>Remarks: <span v-if="errors" v-text="errors.remarks" class="haveerror"></span></label>
+                        <input type="text" class="form-control" v-model="reimbursement.remarks">
+                    </div>
+                </div>
+                <div class="col-md-12 mt-2" v-if="reimbursement.scholar">
+                    <input multiple class="mt-2 mb-1" type="file" :class="[($page.props.errors['files.'+0]) ? 'text-danger' : '']" @change="uploadFieldChange">
                 </div>
             </div>
         </b-form>
@@ -93,13 +105,16 @@ export default {
                 privilege: '',
                 semester: '',
                 amount: '',
-                scholar: ''
+                scholar: '',
+                remarks: '',
+                files: []
             },
             form: {},
             semesters: [],
             showModal: false,
             keyword: '',
-            names: []
+            names: [],
+            errors: []
         }
     },
     computed: {
@@ -119,13 +134,14 @@ export default {
         },
         choose(data){
             this.reimbursement.scholar = data;
+            this.semesters = data.semesters;
         },
         checkSearchStr: _.debounce(function (string) {
             this.keyword = string;
             this.search();
         }, 1000),
         search(){
-            axios.get('/enrollments', {
+            axios.get('/reimbursements', {
                 params: {
                     keyword: this.keyword,
                     search: true
@@ -137,6 +153,53 @@ export default {
                 }
             })
             .catch(err => console.log(err));
+        },
+        uploadFieldChange(e) {
+            e.preventDefault();
+            var files = e.target.files || e.dataTransfer.files;
+
+            if (!files.length)
+                return;
+            for (var i = files.length - 1; i >= 0; i--) {
+                this.reimbursement.files.push(files[i]);
+            }
+        },
+        create(){
+            let data = new FormData();
+            if(this.reimbursement.files.length > 0){
+                for (var i = this.reimbursement.files.length - 1; i >= 0; i--) {
+                    data.append('files[]', this.reimbursement.files[i]);
+                }
+            }else{
+                data.append('files[]', '');
+            }
+            data.append('school_semester_id',(this.reimbursement.semester) ? this.reimbursement.semester.id : '');
+            data.append('scholar_id',(this.reimbursement.scholar) ? this.reimbursement.scholar.id : '');
+            data.append('benefit_id',(this.reimbursement.privilege) ? this.reimbursement.privilege.id : '');
+            data.append('amount',this.reimbursement.amount);
+            data.append('remarks',this.reimbursement.remarks);
+            data.append('is_reimbursed',1);
+
+            this.$inertia.post('/reimbursements', data, {
+                preserveScroll: true,
+                forceFormData: true,
+                onSuccess: (response) => {
+                    this.showModal = false;
+                },
+                onError: () => {
+                    this.errors = this.$page.props.errors;
+                }
+            });
+        },
+        clear(){
+            this.reimbursement.scholar = '';
+            this.reimbursement.amount = '';
+            this.reimbursement.files = '';
+            this.reimbursement.remarks = '';
+            this.reimbursement.semester = '';
+            this.reimbursement.privilege = '';
+            this.semesters = [];
+            this.isCustomDropdown();
         },
         isCustomDropdown() {
             var searchOptions = document.getElementById("search-close-options");

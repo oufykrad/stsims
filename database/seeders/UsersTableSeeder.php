@@ -64,6 +64,36 @@ class UsersTableSeeder extends Seeder
                 'created_at' => '2023-02-11 11:04:56',
                 'updated_at' => '2023-02-11 11:04:56',
             ),
+            3 => 
+            array (
+                'id' => 9,
+                'username' => 'sva0308',
+                'email' => 'stenel_rizza@yahoo.com',
+                'email_verified_at' => NULL,
+                'password' => '$2y$10$KUFEDgGKLv6bPh9iBz0BT.EPV1i38pGrbUDMh6rmw2AVzHtDcALi2',
+                'avatar' => 'sva0308.png',
+                'role' => 'Scholarship Staff',
+                'is_active' => 1,
+                'welcome_valid_until' => NULL,
+                'remember_token' => NULL,
+                'created_at' => '2023-05-17 08:18:48',
+                'updated_at' => '2023-05-17 08:18:48',
+            ),
+            4 => 
+            array (
+                'id' => 10,
+                'username' => 'ssb1121',
+                'email' => 'bernardosheila21@gmail.com',
+                'email_verified_at' => NULL,
+                'password' => '$2y$10$K8bF2/c6a4/4YAYvr8z0o.SqXQ7Bg5IewePsHVU5aPNLjXw6pVM2G',
+                'avatar' => 'ssb1121.png',
+                'role' => 'Scholarship Staff',
+                'is_active' => 1,
+                'welcome_valid_until' => NULL,
+                'remember_token' => NULL,
+                'created_at' => '2023-05-17 08:19:38',
+                'updated_at' => '2023-05-17 08:19:38',
+            ),
         ));
         
         

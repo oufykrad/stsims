@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Scholar;
 
 use Hashids\Hashids;
+use App\Models\ListDropdown;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Scholar\Sub\EnrollmentResource;
 
@@ -17,6 +18,14 @@ class IndexResource extends JsonResource
         $this->scholar->education->schoolInfo = ['name' => $info->school];
         $this->address->info = ['info' => $info->address];
         $this->scholar->education->scholar_id = $this->scholar->id;
+
+        if($this->scholar->education->school_id){
+            $class = $this->scholar->education->school->term->name;
+            $types = ListDropdown::where('classification',$class)->get();
+        }else{
+            $types = [];
+        }
+
         return [
             'id' => $this->scholar->id,
             'code' => $id,
@@ -34,6 +43,8 @@ class IndexResource extends JsonResource
             'user' => ($this->user != null) ? new UserResource($this->user) : null,
             'address' => new AddressResource($this->address),
             'education' =>  new EducationResource($this->scholar->education),
+            'ays' =>    ($this->scholar->education->school_id) ? $this->scholar->education->school->semesters : '',
+            'types' => ($this->scholar->education->school_id) ? $types : '',
             'created_at' => $this->scholar->created_at,
             'updated_at' => $this->scholar->updated_at,
             'info' => $info

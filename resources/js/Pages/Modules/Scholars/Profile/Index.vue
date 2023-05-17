@@ -92,7 +92,7 @@
                         <Overview />
                     </div>
                     <div class="tab-pane" id="financial" role="tabpanel"> 
-                        <Financial />
+                        <Financial :id="scholar.id" :ays="scholar.ays" :types="scholar.types" :privileges="privileges" :benefits="benefits"/>
                     </div>
                     <div class="tab-pane" id="enrollment" role="tabpanel"> 
                         <Enrollment :enrollments="scholar.enrollments"/>
@@ -118,7 +118,7 @@ import Financial from './Financial.vue';
 import Enrollment from './Enrollment.vue';
 export default {
     components : { Overview, Financial, Enrollment, Grade, History, Prospectus },
-    props: ['user'],
+    props: ['user','privileges','benefits'],
     data(){
         return {
             currentUrl: window.location.origin,

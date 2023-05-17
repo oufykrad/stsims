@@ -554,32 +554,12 @@
                                     class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
                                 <span class="align-middle">Profile</span>
                             </Link>
-                            <Link class="dropdown-item" to="/chat">
-                                <i class=" mdi mdi-message-text-outline text-muted fs-16 align-middle me-1"></i>
-                                <span class="align-middle">Messages</span>
-                            </Link>
-                            <!-- <Link class="dropdown-item" to="/apps/tasks-kanban">
-                                <i class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"></i>
-                                <span class="align-middle">Taskboard</span>
-                            </Link> -->
-                            <Link class="dropdown-item" to="/pages/faqs"><i
-                                    class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i>
-                                <span class="align-middle">Help</span>
-                            </Link>
                             <div class="dropdown-divider"></div>
-                            <!-- <Link class="dropdown-item" to="/pages/profile"><i
-                                    class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i>
-                                <span class="align-middle">Balance : <b>$5971.67</b></span>
-                            </Link>
                             <Link class="dropdown-item" to="/pages/profile-setting">
-                                <b-badge variant="soft-success" class="bg-soft-success text-success mt-1 float-end">New</b-badge><i
+                                <i
                                     class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i>
                                 <span class="align-middle">Settings</span>
                             </Link>
-                            <Link class="dropdown-item" to="/auth/lockscreen-basic"><i
-                                    class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i>
-                                <span class="align-middle">Lock screen</span>
-                            </Link> -->
                             <Link class="dropdown-item" method="post" as="button" href="/logout"><i
                                     class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
                                 <span class="align-middle" data-key="t-logout">Logout</span>

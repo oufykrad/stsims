@@ -1,5 +1,5 @@
 <template>
-    <b-modal v-model="showModal" title="View Benefits" style="--vz-modal-width: 600px;" hide-footer header-class="p-3 bg-light" class="v-modal-custom" modal-class="zoomIn" centered no-close-on-backdrop>    
+    <b-modal v-model="showModal" title="View Benefits" style="--vz-modal-width: 600px;" hide-footer header-class="p-3 bg-light" class="v-modal-custom" modal-class="zoomIn" centered>    
         <b-form class="customform mb-2">
             <div class="row">
                 <div class="col-md-12">
