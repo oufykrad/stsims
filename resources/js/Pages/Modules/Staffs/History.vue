@@ -15,7 +15,7 @@
             </div>
             <div class="flex-grow-1 ms-3">
                 <h6 class="mb-0">{{list.platform}} ({{list.browser}})</h6>
-                <p class="text-muted fs-11 mb-0">{{ list.location.city }},  {{ list.location.state_name }}, {{ list.location.country }} </p>
+                <p class="text-muted fs-11 mb-0" v-if="list.location">{{ list.location.city }},  {{ list.location.state_name }}, {{ list.location.country }} </p>
                 <p class="text-muted fs-11 mb-0" style="margin-top: -2px;"> {{ list.login_at}}</p>
             </div>
         </div>
