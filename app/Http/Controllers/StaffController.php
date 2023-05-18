@@ -83,7 +83,9 @@ class StaffController extends Controller
     {   
         $data = \DB::transaction(function () use ($request){
             $user = User::findOrFail($request->id);
-            if($request->type === 'verify'){
+            if($request->type === 'password'){
+                $user->update($request->except('img','editable','type'));
+            }else if($request->type === 'verify'){
                 $user->verify();
 
                 return [
@@ -113,7 +115,7 @@ class StaffController extends Controller
                 'type' => $data['type']
             ]);
         }else{
-            return new StaffResource($data['data']);
+            return inertia('Modules/Home/Index');
         }
 
     }

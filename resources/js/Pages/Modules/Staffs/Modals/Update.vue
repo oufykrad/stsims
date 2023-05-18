@@ -46,7 +46,7 @@
                     <button class="btn btn-light btn-sm w-md" @click="hide()" type="button">
                         <div class="btn-content">Cancel</div>
                     </button>
-                    <button class="btn btn-info btn-sm w-md" type="button" :disabled="form.processing" @click="sendMail()">
+                    <button class="btn btn-info btn-sm w-md" type="button" :disabled="form.processing" @click="create()">
                         <div class="btn-content">Submit</div>
                     </button>
                 </div>
@@ -125,7 +125,22 @@
                         this.form.editable = true;
                     }
                 });
-            }
+            },
+
+             create(){
+                axios.put(this.currentUrl + '/staffs/update', {
+                    id: this.user.id,
+                    is_active: (this.user.is_active == 1) ? 0 : 1
+                })
+                .then(response => {
+                    this.$emit('info', response.data.data)
+                })
+                .catch(error => {
+                    if (error.response.status == 422) {
+                        this.errors = error.response.data.errors;
+                    }
+                });
+            },
         },
     }
 

@@ -65,7 +65,7 @@
 
 
                                         <div class="mt-4">
-                                            <b-button variant="success" class="w-100" @click="validatepassword" type="submit">Reset Password</b-button>
+                                            <b-button variant="success" class="w-100" @click="submit" type="submit">Reset Password</b-button>
                                         </div>
 
                                     </form>
@@ -86,16 +86,32 @@
 <script>
 export default {
     layout: null,
-    props: ['user'],
+    props: ['user','token'],
     data(){
         return {
             currentUrl: window.location.origin,
             email: this.user.data.email,
             password: '',
-            password_confirmation: ''
+            password_confirmation: '',
+            form: {}
         }
     },
     methods: {
+        submit(){
+            this.form = this.$inertia.form({
+                token: this.token,
+                email: this.email,
+                password: this.password,
+                password_confirmation: this.password_confirmation
+            })
+
+            this.form.post('/reset-password',{
+                preserveScroll: true,
+                onSuccess: (response) => {
+                    this.hide();
+                },
+            });
+        },
         validatePassword() {
             // passowrd match
             var password = document.getElementById("password-input"),

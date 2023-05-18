@@ -61,8 +61,8 @@
                                         <span v-else class="badge bg-danger fs-10">Inactive</span>
                                     </td>
                                     <td class="text-end">
-                                        <b-button variant="soft-success" @click="update('status',list)" v-b-tooltip.hover title="Lock" size="sm" class="remove-list me-1"><i class="ri-lock-2-fill align-bottom"></i></b-button>
-                                        <b-button variant="soft-warning"  @click="update('verify',list)" v-b-tooltip.hover title="Verify" size="sm" class="remove-list me-1"><i class="ri-mail-send-fill align-bottom"></i></b-button>
+                                        <b-button variant="soft-success" @click="update('status',list,index)" v-b-tooltip.hover title="Lock" size="sm" class="remove-list me-1"><i class="ri-lock-2-fill align-bottom"></i></b-button>
+                                        <b-button variant="soft-warning"  @click="update('verify',list,index)" v-b-tooltip.hover title="Verify" size="sm" class="remove-list me-1"><i class="ri-mail-send-fill align-bottom"></i></b-button>
                                         <Link :href="'students/'+list.id">
                                         <b-button variant="soft-danger" v-b-tooltip.hover title="View" size="sm" class="remove-list me-1"><i class="ri-eye-fill align-bottom"></i></b-button>
                                         </Link>
@@ -88,7 +88,7 @@
 import History from './History.vue';
 import Lists from './Lists.vue';
 import Add from './Modals/Add.vue';
-import Update from './Modals/Update.vue';
+import Update from './News/Update.vue';
 import Multiselect from '@suadelabs/vue3-multiselect';
 import PageHeader from "@/Shared/Components/PageHeader.vue";
 import flatPickr from "vue-flatpickr-component";
@@ -106,10 +106,26 @@ export default {
             lists : [],
             meta: {},
             links: {},
+            index: '',
         };
     },
     created(){
         this.fetch();
+    },
+    computed: {
+        datares() {
+            return this.$page.props.flash.datares;
+        },
+    },
+    watch: {
+        datares: {
+            deep: true,
+            handler(val = null) {
+                if(val != null && val !== ''){
+                    this.lists[this.index] = val.data;
+                }
+            },
+        },
     },
     methods : {
         add(){
@@ -136,7 +152,8 @@ export default {
             .catch(err => console.log(err));
         },
 
-        update(type,data){
+        update(type,data,index){
+            this.index = index;
             this.$refs.update.show(type,data);
         }
     }
