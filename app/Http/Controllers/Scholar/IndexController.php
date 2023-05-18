@@ -145,6 +145,9 @@ class IndexController extends Controller
             }],
             'amount'
         )
+        ->whereHas('benefits',function ($query) use ($id) {
+            $query->where('scholar_id', $id)->where('status_id',56);
+        })
         ->when($ay, function ($query, $ay) {
             $query->where('academic_year',$ay);
         })
