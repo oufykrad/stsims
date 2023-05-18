@@ -141,7 +141,7 @@ class IndexController extends Controller
             'user' => $user
         ];
 
-        $pdf = \PDF::loadView('Prints.FinancialBenefits',$array)->setPaper('a4', 'portrait');
+        $pdf = \PDF::loadView('prints.financialbenefits',$array)->setPaper('a4', 'portrait');
         return $pdf->download('FinancialBenefit.pdf');
     }
 
@@ -165,7 +165,7 @@ class IndexController extends Controller
 
         foreach($lists as $list){
             foreach($privileges as $privilege){
-
+                
             }
             $arr = [
                 'ay' => $list->academic_year.' - '.$list->semester->name,
