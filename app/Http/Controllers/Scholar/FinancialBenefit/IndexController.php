@@ -141,7 +141,7 @@ class IndexController extends Controller
             'user' => $user
         ];
 
-        $pdf = \PDF::loadView('prints.fb',$array)->setPaper('a4', 'portrait');
+        $pdf = \PDF::loadView('prints2.fb',$array)->setPaper('a4', 'portrait');
         return $pdf->download('FinancialBenefit.pdf');
         //s
     }
