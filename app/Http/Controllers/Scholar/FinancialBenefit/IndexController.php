@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Scholar\FinancialBenefit;
 use App\Models\User;
 use App\Models\Scholar;
 use App\Models\BenefitList;
+use App\Models\ListPrivilege;
 use App\Models\BenefitRelease;
+use App\Models\SchoolSemester;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Traits\UploadTrait;
@@ -21,7 +23,9 @@ class IndexController extends Controller
 
     public function index(Request $request){
         $keyword = $request->keyword;
-        if($request->search){
+        if($request->search == 'print'){
+            $this->print($request->id);
+        }else if($request->search){
             $month = date_parse($request->month)['month'];
             $year = $request->year;
             $data = BenefitRelease::orderBy('created_at','DESC')
@@ -139,5 +143,46 @@ class IndexController extends Controller
 
         $pdf = \PDF::loadView('prints.financialbenefits',$array)->setPaper('a4', 'portrait');
         return $pdf->download('FinancialBenefit.pdf');
+    }
+
+    public function print($id){
+        $lists = SchoolSemester::with('semester')
+        // ->with(['benefits' => function($query) use ($id){ 
+        //     $query->where('scholar_id',$id)->where('status_id',56);
+        // }])
+        ->withSum(
+            ['benefits' => function($query) use ($id) {
+                $query->where('scholar_id', $id)->where('status_id',56);
+            }],
+            'amount'
+        )
+        ->whereHas('benefits',function ($query) use ($id) {
+            $query->where('scholar_id', $id)->where('status_id',56);
+        })
+        ->get();
+
+        $privileges = ListPrivilege::get();
+
+        foreach($lists as $list){
+            foreach($privileges as $privilege){
+                
+            }
+            $arr = [
+                'ay' => $list->academic_year.' - '.$list->semester->name,
+                'academic_year' => $list->academic_year,
+                'semester' => $list->semester->name
+            ];
+        }
+
+        $array = [
+            'lists' => $arr,
+            'privileges' => ListPrivilege::pluck('short')
+        ];
+
+        return $array;
+
+        $pdf = \PDF::loadView('prints.breakdown',$array)->setPaper('a4', 'landscape');
+        return $pdf->download('FinancialBenefitBreakdown.pdf');
+        
     }
 }

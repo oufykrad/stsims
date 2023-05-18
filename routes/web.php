@@ -22,6 +22,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/scholars', App\Http\Controllers\Scholar\IndexController::class);
     Route::resource('/enrollments', App\Http\Controllers\Scholar\Enrollment\IndexController::class);
     Route::resource('/financial-benefits', App\Http\Controllers\Scholar\FinancialBenefit\IndexController::class);
+    Route::get('/print/{id}', [App\Http\Controllers\Scholar\FinancialBenefit\IndexController::class, 'print']);
     Route::resource('/accounting', App\Http\Controllers\AccountingController::class);
     Route::resource('/reimbursements', App\Http\Controllers\Scholar\Reimbursement\IndexController::class);
     Route::resource('/settings', App\Http\Controllers\SettingController::class);

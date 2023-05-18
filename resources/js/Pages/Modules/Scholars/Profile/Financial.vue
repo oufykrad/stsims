@@ -13,6 +13,9 @@
                             <option :value="null" selected>Select Semester</option>
                             <option :value="m.id" v-for="(m,index) in types" v-bind:key="index">{{ m.name }}</option>
                         </select>
+                        <b-button type="button" variant="info" @click="print()">
+                            <i class="ri-printer-fill align-bottom me-1"></i> Print Financial Breakdown
+                        </b-button>
                     </div>
                     <div class="table-responsive mt-3" data-simplebar style="max-height: calc(100vh - 480px);">
                         <table class="table table-nowrap align-middle mb-0">
@@ -135,6 +138,7 @@ export default {
     props: ['benefits','privileges','ays','types','id'],
     data(){
         return {
+            currentUrl: window.location.origin,
             semester: null,
             ay: null,
             privilege: null,
@@ -171,6 +175,9 @@ export default {
             this.selected = data;
             this.showModal = true;
         },
+        print(){
+            window.open(this.currentUrl + '/print/'+this.id);
+        }
         // check(data){
         //     if(data == 'Stipend'){
         //         var test = this.selected.benefits.filter(x => x.benefit.name === 'Stipend');

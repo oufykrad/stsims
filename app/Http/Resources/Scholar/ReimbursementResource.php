@@ -11,7 +11,7 @@ class ReimbursementResource extends JsonResource
         return [
             'id' => $this->id,
             'amount' => $this->amount,
-            'attachment' => $this->attachment,
+            'attachment' => json_decode($this->attachment),
             'is_approved' => $this->is_approved,
             'is_reimbursed' => $this->is_reimbursed,
             'benefit' => $this->benefit,
