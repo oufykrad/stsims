@@ -143,6 +143,7 @@ class IndexController extends Controller
 
         $pdf = \PDF::loadView('prints.financialbenefits',$array)->setPaper('a4', 'portrait');
         return $pdf->download('FinancialBenefit.pdf');
+        //s
     }
 
     public function print($id){
