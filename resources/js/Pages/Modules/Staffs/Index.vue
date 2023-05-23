@@ -66,7 +66,7 @@
                                         <Link :href="'students/'+list.id">
                                         <b-button variant="soft-danger" v-b-tooltip.hover title="View" size="sm" class="remove-list me-1"><i class="ri-eye-fill align-bottom"></i></b-button>
                                         </Link>
-                                        <b-button variant="soft-primary" v-b-tooltip.hover title="Edit" size="sm" class="edit-list"><i class="ri-pencil-fill align-bottom"></i> </b-button>
+                                        <b-button @click="edit(list,index)" variant="soft-primary" v-b-tooltip.hover title="Edit" size="sm" class="edit-list"><i class="ri-pencil-fill align-bottom"></i> </b-button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -131,7 +131,6 @@ export default {
         add(){
             this.$refs.new.show();
         },
-
         fetch(page_url){
             page_url = page_url || '/staffs';
             axios.get(page_url,{
@@ -151,10 +150,13 @@ export default {
             })
             .catch(err => console.log(err));
         },
-
         update(type,data,index){
             this.index = index;
             this.$refs.update.show(type,data);
+        },
+        edit(data,index){
+            this.index = index;
+            this.$refs.new.update(data);
         }
     }
 }

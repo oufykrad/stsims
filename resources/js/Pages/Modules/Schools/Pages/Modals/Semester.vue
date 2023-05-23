@@ -34,7 +34,7 @@
                     <label>Start At: <span v-if="form.errors" v-text="form.errors.start_at" class="haveerror"></span></label>
                     <date-picker
                         v-model:value="semester.start"
-                        type="month" format="YYYY-MM-DD"
+                        type="month" format="YYYY-MM"
                         lang="en"
                         :disabled-date="disabledBeforeTodayAndAfterAWeek"
                         placeholder="Select Month"
@@ -45,7 +45,7 @@
                     <label>End At: <span v-if="form.errors" v-text="form.errors.end_at" class="haveerror"></span></label>
                     <date-picker
                         v-model:value="semester.end"
-                        type="month" format="YYYY-MM-DD"
+                        type="month" format="YYYY-MM"
                         lang="en"
                         :disabled-date="disabledBeforeTodayAndAfterAWeek"
                         placeholder="Select Month"
@@ -92,7 +92,6 @@ export default {
             }
         },
     },
-
     methods : {
         show(id) {
             this.id = id;
@@ -104,7 +103,7 @@ export default {
                 school_id: this.id,
                 academic_year: (this.semester.from) ? this.academic_year : '',
                 start_at: (this.semester.start != '') ? new Date(this.semester.start).toLocaleDateString("af-ZA") : '',
-                end_at: (this.semester.start != '') ? new Date(this.semester.end).toLocaleDateString("af-ZA"): '',
+                end_at: (this.semester.end != '') ? new Date(this.semester.end.getFullYear(),this.semester.end.getMonth() + 1, 0).toLocaleDateString("af-ZA"): '',
                 semester_id: this.semester.semester.id,
                 editable: false,
                 option: 'semester'
@@ -125,7 +124,7 @@ export default {
         },
 
         disabledBeforeTodayAndAfterAWeek(date) {
-            return date < new Date('2022/12/31');
+            return date < new Date('2021/12/31');
         },
     }
 }

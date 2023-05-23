@@ -98,7 +98,7 @@ class StaffController extends Controller
                 $data->update($request->except('img','editable'));
                 $profile = UserProfile::where('user_id',$request->id)->first();
                 $profile->update($request->except('email','role','is_active','img','editable'));
-                ($request->img != '') ? $data = $data->image($request->all()) : '';
+                (!$request->editable) ? $data = $data->image($request->all()) : '';
                 $data = User::findOrFail($request->id);
                 return [
                     'data' => $data,

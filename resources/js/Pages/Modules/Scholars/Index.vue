@@ -103,12 +103,17 @@
 
                 <div class="mt-auto">
                     <b-row class="g-1">
-                        <b-col lg="6">
+                         <b-col lg="4">
+                            <button @click="create()" class="btn btn-soft-primary btn-sm w-100" type="button">
+                                <div class="btn-content"> Create </div>
+                            </button>
+                        </b-col>
+                        <b-col lg="4">
                             <button class="btn btn-soft-primary btn-sm w-100" type="button">
                                 <div class="btn-content"> Sync </div>
                             </button>
                         </b-col>
-                        <b-col lg="6">
+                        <b-col lg="4">
                             <button @click="importModal()" class="btn btn-primary btn-sm w-100" type="button">
                                 <div class="btn-content"> Import </div>
                             </button>
@@ -122,18 +127,19 @@
             <Lists :regions="regions" :programs="programs" :dropdowns="dropdowns" />
         </div>
     </div>
-
+    <Create ref="create" />
     <Import ref="import" />
     <Print :dropdowns="dropdowns" :programs="programs" ref="print"/>
 </template>
 <script>
+import Create from './Modals/Create.vue';
 import Lists from './Lists.vue';
 import Import from './Modals/Import.vue';
 import Print from './Modals/Print.vue';
 import PageHeader from "@/Shared/Components/PageHeader.vue";
 export default {
     props: ['statuses', 'regions', 'programs', 'dropdowns'],
-    components: { PageHeader, Import, Lists, Print },
+    components: { PageHeader, Import, Lists, Print, Create },
     page: {
         title: "List of Staffs",
         meta: [{
@@ -189,6 +195,9 @@ export default {
         },
         print(type){
             this.$refs.print.set(type);
+        },
+        create(){
+            this.$refs.create.show();
         }
     }
 }

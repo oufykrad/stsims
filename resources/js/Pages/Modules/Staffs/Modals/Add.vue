@@ -1,6 +1,6 @@
 <template>
     <b-modal v-model="showModal"  @ok="create($event)" hide-footer body-class="p-0" size="lg" header-class="p-3" id="myModal"
-        class="v-modal-custom" title="New Staff" content-class="border-0" centered>
+        class="v-modal-custom" :title="(editable) ? 'Update Staff' : 'New Staff'" content-class="border-0" centered>
         <b-alert variant="success" class="rounded-0 mb-0" show>
             <p class="mb-0">Please fill up all and <span class="fw-semibold">correctly</span></p>
         </b-alert>
@@ -142,9 +142,14 @@ export default {
 
     methods : {
         show(){
+            this.user = {};
             this.showModal = true;
         },
-
+        update(data){
+            this.user = data;
+            this.editable = true;
+            this.showModal = true;
+        },
         previewImage(e) {
             var preview = document.querySelector(".user-profile-image");
             var file = document.querySelector(".profile-img-file-input").files[0];

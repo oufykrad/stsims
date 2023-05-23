@@ -47,13 +47,13 @@
                                                         </div>                                                           
                                                     </td>
                                                     <td width="12%">
-                                                        <input type="text" class="form-control" v-model="course.code" placeholder="Course code" style="text-transform: capitalize;">
+                                                        <input type="text" class="form-control" v-model="course.code" placeholder="Course code" style="text-transform: capitalize;" required>
                                                     </td>
                                                     <td width="52%">
-                                                        <input type="text" class="form-control" v-model="course.subject" placeholder="Course/Subject" style="text-transform: capitalize;">
+                                                        <input type="text" class="form-control" v-model="course.subject" placeholder="Course/Subject" style="text-transform: capitalize;" required>
                                                     </td>
                                                     <td width="5%">
-                                                        <input type="text" class="form-control" v-model="course.unit" placeholder="Unit" style="text-transform: capitalize;">
+                                                        <input type="text" class="form-control" v-model="course.unit" placeholder="Unit" style="text-transform: capitalize;" required>
                                                     </td>
                                                     <td class="text-end" width="2%">
                                                         <b-button @click="rmv(index,index2,index3)" variant="soft-danger" v-b-tooltip.hover title="Remove" class="edit-list"><i class="ri-delete-bin-5-line align-bottom"></i> </b-button>
@@ -75,9 +75,13 @@
                                         <tbody>
                                             <tr class="bg-primary bg-opacity-10">
                                                 <td>
-                                                    <button @click="save()" class="btn btn-success btn-md btn-label" type="button">
+                                                    <button @click="save()" class="btn btn-success btn-md btn-label me-1" type="button">
                                                         <div class="btn-content"><i class="ri-check-double-line label-icon align-middle fs-16 me-2"></i> Save </div>
                                                     </button>
+                                                    <button @click="showModal = false" class="btn btn-danger btn-md" type="button">
+                                                        <div class="btn-content"> Close </div>
+                                                    </button>
+                                                    {{ message }}
                                                 </td>
                                                 <td>
                                                     <span class="float-end font-size-11 fw-bold me-5">Total Units: {{ totalUnits(s.courses) }}</span>
@@ -99,7 +103,7 @@
 export default {
     data(){
         return {
-             prospectus: {},
+            prospectus: {},
             course: { course: {}},
             semesters: [],
             years: ['First Year', 'Second Year', 'Third Year', 'Fourth Year','Fifth Year'],
@@ -119,6 +123,9 @@ export default {
     computed : {
         updated: function () {
             return this.semesters;
+        },
+        message() {
+            return (this.$page.props.flash.message) ?  true : false;
         }
     },
     methods: {

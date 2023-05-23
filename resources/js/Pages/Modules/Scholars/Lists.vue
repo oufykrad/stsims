@@ -3,7 +3,7 @@
         <b-col lg>
             <div class="input-group mb-1">
                 <span class="input-group-text"> <i class="ri-search-line search-icon"></i></span>
-                <input type="text" v-model="keyword" placeholder="Search scholar" class="form-control" style="width: 40%;">
+                <input type="text" v-model="keyword" placeholder="Search scholar" class="form-control" style="width: 30%;">
                 <select v-model="is_undergrad" @change="fetch()" class="form-select" id="inputGroupSelect01" style="width: 120px;">
                     <option value="all" selected>All</option>
                     <option value="1">Undergraduate</option>
@@ -17,6 +17,7 @@
                     <option :value="null" selected>Select Status</option>
                     <option :value="list.id" v-for="list in statuses" v-bind:key="list.id">{{list.name}}</option>
                 </select>
+                <input type="text" v-model="year" placeholder="Year Awarded" class="form-control" style="width: 100px;">
             </div>
         </b-col>
         <b-col lg="auto">
@@ -29,8 +30,9 @@
         <table class="table table-nowrap align-middle mb-0">
             <thead class="table-light">
                 <tr class="fs-11">
+                    <th></th>
                     <th style="width: 30%;">Name</th>
-                    <th style="width: 15%;" class="text-center">SPAS Id</th>
+                    <th style="width: 15%;" class="text-center">School</th>
                     <th style="width: 15%;" class="text-center">Program</th>
                     <th style="width: 15%;" class="text-center">Awarded Year</th>
                     <th style="width: 15%;" class="text-center">Status</th>
@@ -40,11 +42,21 @@
             <tbody>
                 <tr v-for="user in lists" v-bind:key="user.id" :class="[(user.is_completed == 0) ? 'table-warnings' : '']">
                     <td>
-                        <img :src="currentUrl+'/images/avatars/'+user.profile.avatar" alt=""
-                            class="avatar-xs rounded-circle me-2">
-                        {{user.profile.lastname}}, {{user.profile.firstname}} {{user.profile.middlename[0]}}.
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0 chat-user-img online user-own-img align-self-center me-3 ms-0">
+                                <img :src="currentUrl+'/images/avatars/'+user.profile.avatar" class="rounded-circle avatar-xs" alt="">
+                                <span class="user-status" :style="(user.profile.gender == 'Male') ? 'background-color: #5cb0e5;' : 'background-color: #e55c7f;'"></span>
+                            </div>
+                        </div>
                     </td>
-                    <td class="text-center fs-12 fw-medium">{{user.spas_id}}</td>
+                    <td>
+                        <h5 class="fs-13 mb-0 text-dark">{{user.profile.lastname}}, {{user.profile.firstname}} {{user.profile.middlename[0]}}.</h5>
+                        <p class="fs-12 text-muted mb-0">{{user.spas_id}}</p>
+                    </td>
+                    <td class="text-center">
+                        <p class="fs-12 mb-n1 text-dark">{{(user.education.school instanceof Object) ? user.education.school.name : user.education.school}}</p>
+                        <p class="fs-12 text-muted mb-0">{{(user.education.course instanceof Object) ? user.education.course.name : user.education.course}}</p>
+                    </td>
                     <td class="text-center">{{user.program.name}}</td>
                     <td class="text-center">{{user.awarded_year}}</td>
                     <td class="text-center">
@@ -95,6 +107,9 @@ export default {
     },
     watch: {
         keyword(newVal){
+            this.checkSearchStr(newVal)
+        },
+        year(newVal){
             this.checkSearchStr(newVal)
         },
         datares: {

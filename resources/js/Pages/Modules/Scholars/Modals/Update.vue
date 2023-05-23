@@ -154,7 +154,7 @@ export default {
             });
         },
         asyncSchool(value) {
-            if(value.length > 5){
+            if(value.length > 3){
                 axios.post(this.currentUrl + '/lists/search/schools', {
                     word: value,
                 })
@@ -165,7 +165,7 @@ export default {
             }
         },
         asyncCourse(value) {
-            if(value.length > 5){
+            if(value.length > 3){
                 axios.post(this.currentUrl + '/lists/search/courses', {
                     word: value,
                     school_id: (!Object.keys(this.user.education.school).includes('id')) ? this.school.id : this.user.education.school.id,
